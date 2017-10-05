@@ -267,6 +267,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			BoxGraphic.drawSolidCube();
 			
 			ModelMatrix.main.popMatrix();
+			ModelMatrix.main.popMatrix();// added this to fix first push, needs to be same amount of push and pop
 			
 			
 			
@@ -274,7 +275,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			if(viewNum == 1)
 			{
 				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
-				
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
 				ModelMatrix.main.setShaderMatrix();
