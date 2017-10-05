@@ -40,6 +40,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	@Override
 	public void create () {
 		
+		Maze temp = new Maze();
+		temp.printMaze();
+		
 		Gdx.input.setInputProcessor(this);
 
 		String vertexShaderString;
@@ -124,6 +127,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	
 	private void update()
 	{
+		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+		{
+			System.exit(0);
+		}
+		
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		angle += 180.0f * deltaTime;
