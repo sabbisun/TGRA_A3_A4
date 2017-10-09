@@ -1,5 +1,6 @@
 package com.ru.tgra.shapes;
 
+
 public class Vector3D {
 
 	public float x;
@@ -66,4 +67,55 @@ public class Vector3D {
 	{
 		return new Vector3D(P2.x-P1.x, P2.y-P1.y, P2.z-P1.z);
 	}
+	
+	//
+	
+	public Vector3D normal()
+	{
+		return new Vector3D(-this.z, 0.0f, this.x);
+	}
+	
+	
+	public Vector3D scalar(float scalar)
+	{
+		return new Vector3D(x * scalar, 0.0f, z * scalar);
+	}
+	
+	public float distanceSquared()
+	{
+		return (this.x*this.x) + (this.z*this.z);
+	}
+	
+	public float distance()
+	{
+		return (float) Math.sqrt((float) distanceSquared());
+	}
+	
+	public Vector3D flippedVector()
+	{
+		return new Vector3D(-this.x, 0.0f, -this.z);
+	}
+	
+	public void flipVector()
+	{
+		this.x = -this.x;
+		this.y = -this.y;
+	}
+	
+	public Vector3D negativeVector()
+	{
+		return new Vector3D(- this.x, 0.0f,-this.z);
+	}
+	
+	public Vector3D unitVector()
+	{
+		return new Vector3D(this.x/distance(), 0.0f, this.z/distance());
+	}
+	
+	public Vector3D copy()
+	{
+		return new Vector3D(this.x, 0.0f, this.z);
+	}
+	
+
 }
