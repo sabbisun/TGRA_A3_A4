@@ -36,4 +36,16 @@ public class RoomCell {
 	{
 		this.southWall = set;
 	}
+	
+	public void fill()
+	{
+		this.southWall = true;
+		this.eastWall = true;
+	}
+	
+	public void clear()
+	{
+		this.southWall = false;
+		this.eastWall = false;
+	}
 }
