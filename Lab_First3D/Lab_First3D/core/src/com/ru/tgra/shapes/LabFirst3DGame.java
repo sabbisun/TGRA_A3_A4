@@ -36,14 +36,17 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private float fov = 90.0f;
 	
 	private Player playerOne;
+	RoomCell tempCell;
 
 	//private ModelMatrix modelMatrix;
 
 	@Override
 	public void create () {
 		
-		Maze temp = new Maze();
-		temp.printMaze();
+		Maze maze = new Maze();
+		
+		tempCell = new RoomCell();
+		tempCell.fill();
 		
 		Gdx.input.setInputProcessor(this);
 
@@ -180,16 +183,20 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			playerOne.playerCam.yaw(-90.0f * deltaTime);
 			//orthoCam.yaw(-90.0f * deltaTime);
 		}
-		/*if(Gdx.input.isKeyPressed(Input.Keys.UP))
+		boolean fly = true;
+		if(fly) //Flight allowed
 		{
-			cam.pitch(90.0f * deltaTime);
-			//orthoCam.pitch(90.0f * deltaTime);
+			if(Gdx.input.isKeyPressed(Input.Keys.UP))
+			{
+				cam.pitch(90.0f * deltaTime);
+				//orthoCam.pitch(90.0f * deltaTime);
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+			{
+				cam.pitch(-90.0f * deltaTime);
+				//orthoCam.pitch(-90.0f * deltaTime);
+			}
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-		{
-			cam.pitch(-90.0f * deltaTime);
-			//orthoCam.pitch(-90.0f * deltaTime);
-		}*/
 		if(Gdx.input.isKeyPressed(Input.Keys.Q))
 		{
 			playerOne.playerCam.roll(90.0f * deltaTime);
@@ -207,6 +214,54 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.G))
 		{
 			fov += 30.0f * deltaTime;
+		}
+	}
+	
+	private void drawCell(RoomCell cell)
+	{
+		ModelMatrix.main.loadIdentityMatrix();
+		
+		if(cell.south() && cell.east())
+		{
+			ModelMatrix.main.pushMatrix();
+			
+			Gdx.gl.glUniform4f(colorLoc, 0.2f, 1.0f, 0.2f, 1.0f);
+			ModelMatrix.main.addTranslation(-0.5f, 0.0f, -0.5f);
+			
+			ModelMatrix.main.addScale(0.2f, 1.0f, 0.2f);
+			ModelMatrix.main.setShaderMatrix();
+			
+			BoxGraphic.drawSolidCube();
+			
+			ModelMatrix.main.popMatrix();
+		}
+		if(cell.east())
+		{
+			ModelMatrix.main.pushMatrix();
+			
+			Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 0.5f, 1.0f);
+			
+			ModelMatrix.main.addTranslation(-0.5f, 0.0f, 0.0f);
+			ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f);
+			
+			ModelMatrix.main.setShaderMatrix();
+			BoxGraphic.drawSolidCube();
+			
+			ModelMatrix.main.popMatrix();
+		}
+		if(cell.south())
+		{
+			ModelMatrix.main.pushMatrix();
+			
+			Gdx.gl.glUniform4f(colorLoc, 0.5f, 1.0f, 0.0f, 1.0f);
+			ModelMatrix.main.addTranslation(0.0f, 0.0f, -0.5f);
+			
+			ModelMatrix.main.addScale(0.8f, 1.0f, 0.2f);
+			ModelMatrix.main.setShaderMatrix();
+			
+			BoxGraphic.drawSolidCube();
+			
+			ModelMatrix.main.popMatrix();
 		}
 	}
 	
@@ -230,6 +285,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				//orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0, 0, -1));
 				playerOne.mapLocation.setShaderMatrices();
 			}
+		
+			drawCell(tempCell);
 			
 			ModelMatrix.main.loadIdentityMatrix();
 			
@@ -276,6 +333,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			ModelMatrix.main.addTranslation(10.0f, 5.0f, 2.0f);
 			ModelMatrix.main.pushMatrix();
 			
+			/*
 			for(int level = 0; level < 10; level++)
 			{
 				ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
@@ -298,6 +356,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				}
 				ModelMatrix.main.popMatrix();
 			}
+			*/
 			ModelMatrix.main.popMatrix();
 			
 			
