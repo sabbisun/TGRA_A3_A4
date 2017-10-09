@@ -34,6 +34,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private Camera orthoCam;
 	
 	private float fov = 90.0f;
+	
+	private Player playerOne;
 
 	//private ModelMatrix modelMatrix;
 
@@ -118,6 +120,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 0.0f, 100);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		//orthoCam.look(new Point3D(-3f,2f,3f), new Point3D(0,3,0), new Vector3D(0,1,0));
+		playerOne = new Player(cam,orthoCam);
+	
 	}
 
 	private void input()
@@ -138,42 +142,42 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A))
 		{
-			cam.slide(-3.0f * deltaTime,0,0);
+			playerOne.playerCam.slide(-3.0f * deltaTime,0,0);
 			//orthoCam.slide(-3.0f * deltaTime,0,0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D))
 		{
-			cam.slide(3.0f * deltaTime,0,0);
+			playerOne.playerCam.slide(3.0f * deltaTime,0,0);
 			//orthoCam.slide(3.0f * deltaTime,0,0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W))
 		{
-			cam.slide(0,0,-3.0f * deltaTime);
+			playerOne.playerCam.slide(0,0,-3.0f * deltaTime);
 			//orthoCam.slide(0,0,-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S))
 		{
-			cam.slide(0,0,3.0f * deltaTime);
+			playerOne.playerCam.slide(0,0,3.0f * deltaTime);
 			//orthoCam.slide(0,0,3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R))
 		{
-			cam.slide(0,3.0f * deltaTime,0);
+			playerOne.playerCam.slide(0,3.0f * deltaTime,0);
 			//orthoCam.slide(0,3.0f * deltaTime,0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F))
 		{
-			cam.slide(0,-3.0f * deltaTime,0);
+			playerOne.playerCam.slide(0,-3.0f * deltaTime,0);
 			//orthoCam.slide(0,-3.0f * deltaTime,0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
 		{
-			cam.yaw(90.0f * deltaTime);
+			playerOne.playerCam.yaw(90.0f * deltaTime);
 			//orthoCam.yaw(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 		{
-			cam.yaw(-90.0f * deltaTime);
+			playerOne.playerCam.yaw(-90.0f * deltaTime);
 			//orthoCam.yaw(-90.0f * deltaTime);
 		}
 		/*if(Gdx.input.isKeyPressed(Input.Keys.UP))
@@ -188,12 +192,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}*/
 		if(Gdx.input.isKeyPressed(Input.Keys.Q))
 		{
-			cam.roll(90.0f * deltaTime);
+			playerOne.playerCam.roll(90.0f * deltaTime);
 			//orthoCam.roll(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.E))
 		{
-			cam.roll(-90.0f * deltaTime);
+			playerOne.playerCam.roll(-90.0f * deltaTime);
 			//orthoCam.roll(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.T))
@@ -216,15 +220,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			if(viewNum == 0)
 			{
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				cam.perspectiveProjection(fov, 1.0f, 1.0f, 100.0f);
-				cam.setShaderMatrices();
+				playerOne.playerCam.perspectiveProjection(fov, 1.0f, 1.0f, 100.0f);
+				playerOne.playerCam.setShaderMatrices();
 			}
 			else
 			{
 				Gdx.gl.glViewport(Gdx.graphics.getWidth()-250, Gdx.graphics.getHeight()-250, 250, 250);
-				orthoCam.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0, 0, -1));
+				playerOne.mapLocation.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0, 0, -1));
 				//orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0, 0, -1));
-				orthoCam.setShaderMatrices();
+				playerOne.mapLocation.setShaderMatrices();
 			}
 			
 			ModelMatrix.main.loadIdentityMatrix();
@@ -235,38 +239,70 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
 			ModelMatrix.main.pushMatrix();
 			
-			ModelMatrix.main.addScale(10, 1, 0.2f);
+			ModelMatrix.main.addScale(50, 1, 0.2f);
 			ModelMatrix.main.setShaderMatrix();
 			BoxGraphic.drawSolidCube();
 			
 			ModelMatrix.main.popMatrix();
 			
-			ModelMatrix.main.addTranslation(4.9f, 0, 4.9f);
+			ModelMatrix.main.addTranslation(24.9f, 0, 24.9f);
 			
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(0.2f, 1, 10);
+			ModelMatrix.main.addScale(0.2f, 1, 50);
 			ModelMatrix.main.setShaderMatrix();
 			BoxGraphic.drawSolidCube();
 			
 			ModelMatrix.main.popMatrix();
 			
-			ModelMatrix.main.addTranslation(-4.9f, 0, 4.9f);
+			ModelMatrix.main.addTranslation(-24.9f, 0, 24.9f);
 			
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(10, 1, 0.2f);
+			ModelMatrix.main.addScale(50, 1, 0.2f);
 			ModelMatrix.main.setShaderMatrix();
 			BoxGraphic.drawSolidCube();
 			
 			ModelMatrix.main.popMatrix();
 			
-			ModelMatrix.main.addTranslation(-4.9f, 0, -4.9f);
+			ModelMatrix.main.addTranslation(-24.9f, 0, -24.9f);
 			
 			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(0.2f, 1, 10);
+			ModelMatrix.main.addScale(0.2f, 1, 50);
 			ModelMatrix.main.setShaderMatrix();
 			BoxGraphic.drawSolidCube();
 			
 			ModelMatrix.main.popMatrix();
+			
+			Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 0.0f, 1.0f);
+			ModelMatrix.main.addTranslation(10.0f, 5.0f, 2.0f);
+			ModelMatrix.main.pushMatrix();
+			
+			for(int level = 0; level < 10; level++)
+			{
+				ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
+				
+				ModelMatrix.main.pushMatrix();
+				for(int i = 0; i < 10 - level; i++)
+				{
+					ModelMatrix.main.addTranslation(1.1f, 0, 0);
+					ModelMatrix.main.pushMatrix();
+					for(int j = 0; j < 10 - level; j++)
+					{
+						ModelMatrix.main.addTranslation(0, 0, -1.1f);
+						ModelMatrix.main.pushMatrix();
+						ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
+						ModelMatrix.main.setShaderMatrix();
+						SphereGraphic.drawSolidSphere();
+						ModelMatrix.main.popMatrix();
+					}
+					ModelMatrix.main.popMatrix();
+				}
+				ModelMatrix.main.popMatrix();
+			}
+			ModelMatrix.main.popMatrix();
+			
+			
+			
+			
 			ModelMatrix.main.popMatrix();// added this to fix first push, needs to be same amount of push and pop
 			
 			
