@@ -81,30 +81,37 @@ public class BoxGraphic {
 
 		Gdx.gl.glVertexAttribPointer(vertexPointer, 3, GL20.GL_FLOAT, false, 0, vertexBuffer);
 		Gdx.gl.glVertexAttribPointer(normalPointer, 3, GL20.GL_FLOAT, false, 0, normalBuffer);
+		
 
 		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 0, 4);
 		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 4, 4);
-		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 8, 4);
+		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 8, 4); 
 		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 12, 4);
 		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 16, 4);
 		Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 20, 4);
 
 	}
 
-	public static void drawSolidCube(boolean sides[]) {
+	public static void drawSolidCube(boolean sides[], int colorLoc) {
 
 		// test this, this is not right
-		// north, south, bottom, top, left, right
+		// north, south, bottom, top, west, east
 		// x,y,z
 		
 		Gdx.gl.glVertexAttribPointer(vertexPointer, 3, GL20.GL_FLOAT, false, 0, vertexBuffer);
 		Gdx.gl.glVertexAttribPointer(normalPointer, 3, GL20.GL_FLOAT, false, 0, normalBuffer);
 
+		Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f);//north
 		if(sides[0]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 0, 4); }
+		Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 1.0f, 1.0f);//south
 		if(sides[1]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 4, 4); }
+		Gdx.gl.glUniform4f(colorLoc, 0.0f, 0.0f, 0.0f, 1.0f); //bottom
 		if(sides[2]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 8, 4); }
-		if(sides[3]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 12, 4); }
+		Gdx.gl.glUniform4f(colorLoc, 0.0f, 0.0f, 0.0f, 1.0f);  //top
+		if(sides[3]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 12, 4); } 
+		Gdx.gl.glUniform4f(colorLoc, 1.0f, 1.0f, 0.0f, 1.0f); //west
 		if(sides[4]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 16, 4); }
+		Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 0.0f, 1.0f);//east
 		if(sides[5]){ Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_FAN, 20, 4); }
 
 	}
