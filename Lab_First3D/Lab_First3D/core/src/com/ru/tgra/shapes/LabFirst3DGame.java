@@ -1,6 +1,8 @@
 package com.ru.tgra.shapes;
 
-
+//Escape eða space til að loka glugganum /hætta í forriti
+//Nota músina sem stýringu, passa að týna ekki bendinum á henni (núllstilla?)
+//
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
