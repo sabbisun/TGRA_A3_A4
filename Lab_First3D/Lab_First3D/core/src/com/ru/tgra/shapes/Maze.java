@@ -89,6 +89,60 @@ public class Maze {
 		}
 	}
 	
+	public void setTest1()
+	{
+		for(int y = 0; y < size; y += 1)
+		{
+			for(int x = 0; x < size; x += 1)
+			{
+					cells[x][y].clear();
+			}
+		}
+		if(size >= 5)
+		{
+			cells[1][1].fill();
+			cells[2][1].setEast(true);
+			cells[3][1].setSouth(true);
+			
+			cells[1][2].setSouth(true);
+			cells[3][2].setSouth(true);
+			
+			cells[1][3].setEast(true);
+			cells[2][3].setEast(true);
+			
+		}
+	}
+	
+	public void setTest2()
+	{
+		for(int y = 0; y < size; y += 1)
+		{
+			for(int x = 0; x < size; x += 1)
+			{
+					cells[x][y].clear();
+			}
+		}
+		if(size >= 5)
+		{
+			cells[1][1].setSouth(true);
+		}
+	}
+	
+	public void setTest3()
+	{
+		for(int y = 0; y < size; y += 1)
+		{
+			for(int x = 0; x < size; x += 1)
+			{
+					cells[x][y].clear();
+			}
+		}
+		if(size >= 5)
+		{
+			cells[1][1].setEast(true);
+		}
+	}
+	
 	public void setMaze()
 	{
 		// Set up cells

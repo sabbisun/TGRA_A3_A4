@@ -49,7 +49,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		maze = new Maze(5);
 		//maze.setPrison();
 		//maze.setFull();
-		maze.setMaze();
+		maze.setTest2();
+		//maze.setMaze();
 		maze.printMaze();
 		maze.printSetup();
 		
@@ -131,7 +132,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 0.0f, 100);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		//orthoCam.look(new Point3D(-3f,2f,3f), new Point3D(0,3,0), new Vector3D(0,1,0));
-		playerOne = new Player(new Point3D(3.0f, 0, 10.0f), new Vector3D(0, 0, -1.0f), 3, cam, orthoCam);
+		playerOne = new Player(new Point3D(3.0f, 0, 10.0f), new Vector3D(0, 0, -1.0f), 2, cam, orthoCam, maze);
 	
 	}
 
@@ -265,7 +266,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	{
 		ModelMatrix.main.loadIdentityMatrix();
 		ModelMatrix.main.pushMatrix();
-		//ModelMatrix.main.addTranslation(pos.x, pos.y, pos.z);
+		ModelMatrix.main.addTranslation(0.5f, 0, 0.5f);
 		for (int z = 0; z < maze.size(); z++)
 		{
 			for (int x = 0; x < maze.size(); x++)
@@ -277,9 +278,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				ModelMatrix.main.pushMatrix();
 				
 				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.2f, 0.2f, 1.0f);
-				ModelMatrix.main.addTranslation(x, 0.0f, z);
+				ModelMatrix.main.addTranslation(x, -0.5f, z);
 				
-				ModelMatrix.main.addScale(0.2f, 0.2f, 0.2f);
+				ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
 				ModelMatrix.main.setShaderMatrix();
 				
 				BoxGraphic.drawSolidCube();
@@ -448,6 +449,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.3f, 0.1f, 1.0f);
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
+				ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
 				ModelMatrix.main.setShaderMatrix();
 				BoxGraphic.drawSolidCube();
 				ModelMatrix.main.popMatrix();
