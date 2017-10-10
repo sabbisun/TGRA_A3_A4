@@ -39,13 +39,19 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	
 	private Player playerOne;
 	RoomCell tempCell;
+	Maze maze;
 
 	//private ModelMatrix modelMatrix;
 
 	@Override
 	public void create () {
 		
-		Maze maze = new Maze();
+		maze = new Maze(5);
+		//maze.setPrison();
+		//maze.setFull();
+		maze.setMaze();
+		maze.printMaze();
+		maze.printSetup();
 		
 		tempCell = new RoomCell();
 		tempCell.fill();
@@ -119,7 +125,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		//cam.perspectiveProjection(fov, 1.0f, 0.4f, 100.0f);
-		cam.look(new Point3D(5,0,-2.5f), new Point3D(0,0,0), new Vector3D(0,1,0));
+		cam.look(new Point3D(3.0f, 0, 10.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 		
 		orthoCam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 0.0f, 100);
@@ -222,7 +228,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private void drawCell(RoomCell cell)
 	{
 		ModelMatrix.main.loadIdentityMatrix();
-		
+		ModelMatrix.main.pushMatrix();
 		if(cell.south() && cell.east())
 		{
 			ModelMatrix.main.pushMatrix();
@@ -265,6 +271,85 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 			ModelMatrix.main.popMatrix();
 		}
+		ModelMatrix.main.popMatrix();
+	}
+	
+	private void drawMaze(Maze maze)
+	{
+		ModelMatrix.main.loadIdentityMatrix();
+		ModelMatrix.main.pushMatrix();
+		//ModelMatrix.main.addTranslation(pos.x, pos.y, pos.z);
+		for (int z = 0; z < maze.size(); z++)
+		{
+			for (int x = 0; x < maze.size(); x++)
+			{
+				//if(x != 0)
+				//	continue;
+				//drawCell(maze.cells[x][z], new Point3D(x,0,z));
+				
+				ModelMatrix.main.pushMatrix();
+				
+				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.2f, 0.2f, 1.0f);
+				ModelMatrix.main.addTranslation(x, 0.0f, z);
+				
+				ModelMatrix.main.addScale(0.2f, 0.2f, 0.2f);
+				ModelMatrix.main.setShaderMatrix();
+				
+				BoxGraphic.drawSolidCube();
+				
+				ModelMatrix.main.popMatrix();
+				// South east corner
+				if(maze.cells[x][z].south() || maze.cells[x][z].east()
+						|| (x < maze.size() - 1 && maze.cells[x+1][z].south())
+						|| (z < maze.size() - 1 && maze.cells[x][z+1].east()))
+				{
+					ModelMatrix.main.pushMatrix();
+					
+					Gdx.gl.glUniform4f(colorLoc, 0.2f, 1.0f, 0.2f, 1.0f);
+					ModelMatrix.main.addTranslation(x+0.5f, 0.0f, z+0.5f);
+					
+					ModelMatrix.main.addScale(0.2f, 1.0f, 0.2f);
+					ModelMatrix.main.setShaderMatrix();
+					
+					BoxGraphic.drawSolidCube();
+					
+					ModelMatrix.main.popMatrix();
+				}
+				
+				// East wall
+				if(maze.cells[x][z].east())
+				{
+					ModelMatrix.main.pushMatrix();
+					
+					Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 0.5f, 1.0f);
+					
+					ModelMatrix.main.addTranslation(x+0.5f, 0.0f, z-0.0f);
+					ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f);
+					
+					ModelMatrix.main.setShaderMatrix();
+					BoxGraphic.drawSolidCube();
+					
+					ModelMatrix.main.popMatrix();
+				}
+				//South wall
+				if(maze.cells[x][z].south())
+				{
+					ModelMatrix.main.pushMatrix();
+					
+					Gdx.gl.glUniform4f(colorLoc, 0.5f, 1.0f, 0.0f, 1.0f);
+					ModelMatrix.main.addTranslation(x-0.0f, 0.0f, z+0.5f);
+					
+					ModelMatrix.main.addScale(0.8f, 1.0f, 0.2f);
+					ModelMatrix.main.setShaderMatrix();
+					
+					BoxGraphic.drawSolidCube();
+					
+					ModelMatrix.main.popMatrix();
+				}
+				
+			}
+		}
+		ModelMatrix.main.popMatrix();
 	}
 	
 	private void display()
@@ -288,7 +373,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				playerOne.mapLocation.setShaderMatrices();
 			}
 		
-			drawCell(tempCell);
+			//drawCell(tempCell, new Point3D(5.0f,0,0));
+			//maze.printMaze();
+			drawMaze(maze);
 			
 			ModelMatrix.main.loadIdentityMatrix();
 			

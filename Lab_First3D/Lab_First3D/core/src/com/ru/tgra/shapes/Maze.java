@@ -38,6 +38,11 @@ public class Maze {
 		}
 	}
 	
+	public int size()
+	{
+		return size;
+	}
+	
 	public void setBox()
 	{
 		for (int i = 0; i < size; i++)
@@ -72,6 +77,17 @@ public class Maze {
 		}
 	}
 	
+
+	public void setFull()
+	{
+		for(int y = 0; y < size; y += 1)
+		{
+			for(int x = 0; x < size; x += 1)
+			{
+					cells[x][y].fill();
+			}
+		}
+	}
 	
 	public void setMaze()
 	{
@@ -277,6 +293,33 @@ public class Maze {
 			for(int x = 0; x < 2*size; x += 1)
 			{
 				System.out.print(mazeSymbol[x][y]);
+			}
+			System.out.println("");
+		}
+	}
+	
+	public void printSetup()
+	{
+		for(int y = 0; y < size; y += 1)
+		{
+			for(int x = 0; x < size; x += 1)
+			{
+				if (cells[x][y].east() && cells[x][y].south())
+				{
+					System.out.print("F");
+				}
+				else if (cells[x][y].east())
+				{
+					System.out.print("|");
+				}
+				else if (cells[x][y].south())
+				{
+					System.out.print("_");
+				}
+				else
+				{
+					System.out.print(".");
+				}
 			}
 			System.out.println("");
 		}
