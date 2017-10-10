@@ -187,38 +187,21 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
 		{
-			//playerOne.playerCam.yaw(90.0f * deltaTime);
-			//orthoCam.yaw(90.0f * deltaTime);
+			playerOne.lookLeft(deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 		{
-			//playerOne.playerCam.yaw(-90.0f * deltaTime);
-			//orthoCam.yaw(-90.0f * deltaTime);
-		}
-		boolean fly = true;
-		if(fly) //Flight allowed
+			playerOne.lookRight(deltaTime);
+		}	
+		if(Gdx.input.isKeyPressed(Input.Keys.UP))
 		{
-			if(Gdx.input.isKeyPressed(Input.Keys.UP))
-			{
-				cam.pitch(90.0f * deltaTime);
-				orthoCam.pitch(90.0f * deltaTime);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-			{
-				cam.pitch(-90.0f * deltaTime);
-				orthoCam.pitch(-90.0f * deltaTime);
-			}
+			playerOne.lookUp(deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.Q))
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
 		{
-			playerOne.playerCam.roll(90.0f * deltaTime);
-			//orthoCam.roll(90.0f * deltaTime);
+			playerOne.lookDown(deltaTime);
 		}
-		if(Gdx.input.isKeyPressed(Input.Keys.E))
-		{
-			playerOne.playerCam.roll(-90.0f * deltaTime);
-			//orthoCam.roll(-90.0f * deltaTime);
-		}
+	
 		if(Gdx.input.isKeyPressed(Input.Keys.T))
 		{
 			fov -= 30.0f * deltaTime;

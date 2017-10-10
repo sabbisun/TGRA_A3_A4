@@ -10,16 +10,30 @@ public class Player {
 	Vector3D forward;
 	Vector3D strafe;
 	float speed;
+	float currAngle;
+	float maxAngle;
+	float minAngle;
+	float pitchMovement;
+	float yawMovement;
 	
 	Player(Point3D location, Vector3D forward, float speed, Camera viewCam, Camera mapLocation){
 		this.playerCam = viewCam;
 		this.mapLocation = mapLocation;
 		this.playerLocation = location;
+		
+		this.pitchMovement = 90.0f;
+		this.yawMovement = 90.0f;
+		this.currAngle = 90.0f;
+		this.minAngle = 0;
+		this.maxAngle = 180.0f;
+		
 		this.speed = speed;
-		this.forward = forward; //new Vector3D(0.0f,0,-3.0f);
+		
+		this.forward = forward;
 		this.forward.normalize();
 		this.forward.scale(speed);
-		this.strafe = new Vector3D(-forward.z, 0, forward.x); //new Vector3D(3.0f,0,0);
+		this.strafe = new Vector3D(-forward.z, 0, forward.x);
+		
 		
 		playerCam.look(playerLocation, playerLocation.movement(forward), new Vector3D(0,1.0f,0));
 		
@@ -74,21 +88,48 @@ public class Player {
 	public void lookUp(float deltaTime)
 	{
 		//pitch
+		float angle = pitchMovement*deltaTime;
+		playerCam.pitch(angle);
 	}
 	
 	public void lookDown(float deltaTime)
 	{
-		
+		//pitch
+		float angle = -pitchMovement*deltaTime;
+		playerCam.pitch(angle);
 	}
 	
 	public void lookRight(float deltaTime)
 	{
 		//yaw
+		float angle = -yawMovement*deltaTime;
+		
+		float radians = angle * (float)Math.PI/180.0f;
+		float c = (float)Math.cos(radians);
+		float s = (float)Math.sin(radians);
+		Vector3D t = new Vector3D(forward.x, forward.y, forward.z);
+		
+		forward.set(t.x * c - strafe.x * s, 0, t.z * c - strafe.z * s);
+		strafe.set(t.x * s + strafe.x * c, 0, t.z * s + strafe.z * c);
+		
+		playerCam.yaw(angle);
+		
 	}
 	
 	public void lookLeft(float deltaTime)
 	{
+		//yaw
+		float angle = yawMovement*deltaTime;
 		
+		float radians = angle * (float)Math.PI/180.0f;
+		float c = (float)Math.cos(radians);
+		float s = (float)Math.sin(radians);
+		Vector3D t = new Vector3D(forward.x, forward.y, forward.z);
+		
+		forward.set(t.x * c - strafe.x * s, 0, t.z * c - strafe.z * s);
+		strafe.set(t.x * s + strafe.x * c, 0, t.z * s + strafe.z * c);
+		
+		playerCam.yaw(angle);
 	}
 	
 	public Point3D newPoint(Vector3D vector)
