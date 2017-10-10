@@ -35,7 +35,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private Camera cam;
 	private Camera orthoCam;
 	
-	private float fov = 90.0f;
+	private float fov = 60.0f;
 	
 	private Player playerOne;
 	RoomCell tempCell;
@@ -349,7 +349,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			if(viewNum == 0)
 			{
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				playerOne.playerCam.perspectiveProjection(fov, 1.0f, 1.0f, 100.0f);
+				playerOne.playerCam.perspectiveProjection(fov, 2.0f, 0.4f, 100.0f);
 				playerOne.playerCam.setShaderMatrices();
 			}
 			else
