@@ -117,5 +117,9 @@ public class Vector3D {
 		return new Vector3D(this.x, 0.0f, this.z);
 	}
 	
+	public String string()
+	{
+		return "(" + this.x +", " + this.y + ", " + this.z + ")";
+	}
 
 }

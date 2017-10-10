@@ -33,4 +33,18 @@ public class Point3D {
 		this.y = y;
 		this.z = z;
 	}
+	
+	public Point3D copy()
+	{
+		return new Point3D(this.x,this.y,this.z);
+	}
+	
+	public Point3D movement(Vector3D vector)
+	{
+		return new Point3D(this.x+vector.x, this.y+vector.y, this.z+vector.z);
+	}
+	public String string()
+	{
+		return "(" + this.x +", " + this.y + ", " + this.z + ")";
+	}
 }
