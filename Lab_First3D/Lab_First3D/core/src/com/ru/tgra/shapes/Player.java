@@ -9,6 +9,7 @@ public class Player {
 	
 	Vector3D forward;
 	Vector3D strafe;
+	float radius;
 	float speed;
 	float currAngle;
 	float maxAngle;
@@ -99,6 +100,27 @@ public class Player {
 		playerCam.pitch(angle);
 	}
 	
+	private void rotateAroundY(float angle, Vector3D vector)
+	{
+		float radians = angle * (float)Math.PI/180.0f;
+		float c = (float)Math.cos(radians);
+		float s = (float)Math.sin(radians);
+		float tempX = vector.x;
+		float tempY = vector.y;
+		float tempZ = vector.z;
+		
+		vector.set(c*tempX + s*tempZ, tempY, -s*tempX + c*tempZ);
+	}
+	
+	private void rotateAroundY(float c, float s, Vector3D vector)
+	{
+		float tempX = vector.x;
+		float tempY = vector.y;
+		float tempZ = vector.z;
+		
+		vector.set(c*tempX + s*tempZ, tempY, -s*tempX + c*tempZ);
+	}
+	
 	public void lookRight(float deltaTime)
 	{
 		//yaw
@@ -107,13 +129,13 @@ public class Player {
 		float radians = angle * (float)Math.PI/180.0f;
 		float c = (float)Math.cos(radians);
 		float s = (float)Math.sin(radians);
-		Vector3D t = new Vector3D(forward.x, forward.y, forward.z);
+
+		rotateAroundY(c,s,forward);
+		rotateAroundY(c,s,strafe);
 		
-		forward.set(t.x * c - strafe.x * s, 0, t.z * c - strafe.z * s);
-		strafe.set(t.x * s + strafe.x * c, 0, t.z * s + strafe.z * c);
-		
-		playerCam.yaw(angle);
-		
+		rotateAroundY(c,s,playerCam.u);
+		rotateAroundY(c,s,playerCam.v);
+		rotateAroundY(c,s,playerCam.n);		
 	}
 	
 	public void lookLeft(float deltaTime)
@@ -124,12 +146,13 @@ public class Player {
 		float radians = angle * (float)Math.PI/180.0f;
 		float c = (float)Math.cos(radians);
 		float s = (float)Math.sin(radians);
-		Vector3D t = new Vector3D(forward.x, forward.y, forward.z);
+
+		rotateAroundY(c,s,forward);
+		rotateAroundY(c,s,strafe);
 		
-		forward.set(t.x * c - strafe.x * s, 0, t.z * c - strafe.z * s);
-		strafe.set(t.x * s + strafe.x * c, 0, t.z * s + strafe.z * c);
-		
-		playerCam.yaw(angle);
+		rotateAroundY(c,s,playerCam.u);
+		rotateAroundY(c,s,playerCam.v);
+		rotateAroundY(c,s,playerCam.n);
 	}
 	
 	public Point3D newPoint(Vector3D vector)
