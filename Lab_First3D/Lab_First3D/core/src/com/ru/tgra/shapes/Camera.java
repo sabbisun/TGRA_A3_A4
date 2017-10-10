@@ -66,6 +66,13 @@ public class Camera {
 		eye.z += delU*u.z + delV*v.z + delN*n.z;
 	}
 	
+	public void move(Vector3D movement)
+	{
+		eye.x += movement.x;
+		eye.y += movement.y;
+		eye.z += movement.z;
+	}
+	
 	public void roll(float angle)
 	{
 		float radians = angle * (float)Math.PI/180.0f;

@@ -21,17 +21,19 @@ public class Player {
 		this.forward.scale(speed);
 		this.strafe = new Vector3D(-forward.z, 0, forward.x); //new Vector3D(3.0f,0,0);
 		
-		playerCam.look(playerLocation.copy(), playerLocation.movement(forward), new Vector3D(0,1.0f,0));
+		playerCam.look(playerLocation, playerLocation.movement(forward), new Vector3D(0,1.0f,0));
 		
 		System.out.println(playerCam.eye.string()+ " == " + playerLocation.string());
 	}
 	
 	public void forward(float deltaTime)
 	{
+
 		playerLocation.x += forward.x*deltaTime;
 		playerLocation.y += forward.y*deltaTime;
 		playerLocation.z += forward.z*deltaTime;
-		playerCam.slide(forward.x*deltaTime, forward.y*deltaTime, forward.z*deltaTime);
+		//playerCam.slide(forward.x*deltaTime, forward.y*deltaTime, forward.z*deltaTime);
+		playerCam.move(forward.scalar(deltaTime));
 		System.out.println(playerCam.eye.string()+ " == " + playerLocation.string());
 	}
 	
@@ -41,7 +43,8 @@ public class Player {
 		playerLocation.x += -forward.x*deltaTime;
 		playerLocation.y += -forward.y*deltaTime;
 		playerLocation.z += -forward.z*deltaTime;
-		playerCam.slide(-forward.x*deltaTime, -forward.y*deltaTime, -forward.z*deltaTime);
+		playerCam.move(forward.scalar(-deltaTime));
+		//playerCam.slide(-forward.x*deltaTime, -forward.y*deltaTime, -forward.z*deltaTime);
 	}
 	
 	public void strafeRight(float deltaTime)
@@ -49,7 +52,8 @@ public class Player {
 		playerLocation.x += strafe.x*deltaTime;
 		playerLocation.y += strafe.y*deltaTime;
 		playerLocation.z += strafe.z*deltaTime;
-		playerCam.slide(strafe.x*deltaTime, strafe.y*deltaTime, strafe.z*deltaTime);
+		playerCam.move(strafe.scalar(deltaTime));
+		//playerCam.slide(strafe.x*deltaTime, strafe.y*deltaTime, strafe.z*deltaTime);
 	}
 	
 	public void strafeLeft(float deltaTime)
@@ -57,13 +61,34 @@ public class Player {
 		playerLocation.x += -strafe.x*deltaTime;
 		playerLocation.y += -strafe.y*deltaTime;
 		playerLocation.z += -strafe.z*deltaTime;
-		playerCam.slide(-strafe.x*deltaTime, -strafe.y*deltaTime, -strafe.z*deltaTime);
+		playerCam.move(strafe.scalar(-deltaTime));
+		//playerCam.slide(-strafe.x*deltaTime, -strafe.y*deltaTime, -strafe.z*deltaTime);
 	}
 	
 	public void movement(Vector3D vector, float deltaTime)
 	{
 		playerMovement.x += vector.x * deltaTime;
 		playerMovement.z += vector.z * deltaTime;
+	}
+
+	public void lookUp(float deltaTime)
+	{
+		//pitch
+	}
+	
+	public void lookDown(float deltaTime)
+	{
+		
+	}
+	
+	public void lookRight(float deltaTime)
+	{
+		//yaw
+	}
+	
+	public void lookLeft(float deltaTime)
+	{
+		
 	}
 	
 	public Point3D newPoint(Vector3D vector)

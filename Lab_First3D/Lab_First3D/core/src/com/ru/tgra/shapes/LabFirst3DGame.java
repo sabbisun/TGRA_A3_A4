@@ -187,12 +187,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
 		{
-			playerOne.playerCam.yaw(90.0f * deltaTime);
+			//playerOne.playerCam.yaw(90.0f * deltaTime);
 			//orthoCam.yaw(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 		{
-			playerOne.playerCam.yaw(-90.0f * deltaTime);
+			//playerOne.playerCam.yaw(-90.0f * deltaTime);
 			//orthoCam.yaw(-90.0f * deltaTime);
 		}
 		boolean fly = true;
@@ -201,12 +201,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			if(Gdx.input.isKeyPressed(Input.Keys.UP))
 			{
 				cam.pitch(90.0f * deltaTime);
-				//orthoCam.pitch(90.0f * deltaTime);
+				orthoCam.pitch(90.0f * deltaTime);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
 			{
 				cam.pitch(-90.0f * deltaTime);
-				//orthoCam.pitch(-90.0f * deltaTime);
+				orthoCam.pitch(-90.0f * deltaTime);
 			}
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.Q))
