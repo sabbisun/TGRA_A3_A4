@@ -52,7 +52,6 @@ public class Player {
 			playerCam.eye.set(playerLocation.x, playerLocation.y, playerLocation.z);
 			return;
 		}
-		
 		playerLocation.x += deltaForward.x;
 		//playerLocation.y += forward.y*deltaTime;
 		playerLocation.z += deltaForward.z;

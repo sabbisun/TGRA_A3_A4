@@ -49,7 +49,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		maze = new Maze(5);
 		//maze.setPrison();
 		//maze.setFull();
-		maze.setTest3();
+		maze.setTest2();
 		//maze.setMaze();
 		maze.printMaze();
 		maze.printSetup();
@@ -155,26 +155,18 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.A))
 		{
 			playerOne.strafeLeft(deltaTime);
-			//playerOne.playerCam.slide(-3.0f*deltaTime,0,0);
-			//orthoCam.slide(-3.0f * deltaTime,0,0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D))
 		{
 			playerOne.strafeRight(deltaTime);
-			//playerOne.playerCam.slide(3.0f*deltaTime,0,0);
-			//orthoCam.slide(3.0f * deltaTime,0,0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W))
 		{
 			playerOne.forward(deltaTime);
-			//playerOne.playerCam.slide(0,0,-3.0f * deltaTime);
-			//orthoCam.slide(0,0,-3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S))
 		{
 			playerOne.backward(deltaTime);
-			//playerOne.playerCam.slide(0,0,3.0f * deltaTime);
-			//orthoCam.slide(0,0,3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.R))
 		{
