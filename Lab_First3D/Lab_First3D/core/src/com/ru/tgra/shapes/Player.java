@@ -31,7 +31,7 @@ public class Player {
 		this.maxAngle = 180.0f;
 		
 		this.speed = speed;
-		this.radius = 0.15f;
+		this.radius = 0.3f;
 		
 		this.forward = forward;
 		this.forward.normalize();
@@ -46,60 +46,64 @@ public class Player {
 	
 	public void forward(float deltaTime)
 	{	
-		if(Collision.collide(playerLocation, forward, radius, maze))
+		Vector3D deltaForward = forward.scalar(deltaTime);
+		if(Collision.collide(playerLocation, deltaForward, radius, maze))
 		{
 			playerCam.eye.set(playerLocation.x, playerLocation.y, playerLocation.z);
 			return;
 		}
 		
-		playerLocation.x += forward.x*deltaTime;
+		playerLocation.x += deltaForward.x;
 		//playerLocation.y += forward.y*deltaTime;
-		playerLocation.z += forward.z*deltaTime;
-		playerCam.move(forward.scalar(deltaTime));
+		playerLocation.z += deltaForward.z;
+		playerCam.move(deltaForward);
 	}
 	
 	public void backward(float deltaTime)
 	{
-		if(Collision.collide(playerLocation, forward.scalar(-1), radius, maze))
+		Vector3D deltaBackward = forward.scalar(-deltaTime);
+		if(Collision.collide(playerLocation, deltaBackward, radius, maze))
 		{
 			playerCam.eye.set(playerLocation.x, playerLocation.y, playerLocation.z);
 			return;
 		}
 		
-		playerLocation.x += -forward.x*deltaTime;
+		playerLocation.x += deltaBackward.x;
 		//playerLocation.y += -forward.y*deltaTime;
-		playerLocation.z += -forward.z*deltaTime;
-		playerCam.move(forward.scalar(-deltaTime));
+		playerLocation.z += deltaBackward.z;
+		playerCam.move(deltaBackward);
 		//playerCam.slide(-forward.x*deltaTime, -forward.y*deltaTime, -forward.z*deltaTime);
 	}
 	
 	public void strafeRight(float deltaTime)
 	{
-		if(Collision.collide(playerLocation, strafe, radius, maze))
+		Vector3D deltaRStrafe = strafe.scalar(deltaTime);
+		if(Collision.collide(playerLocation, deltaRStrafe, radius, maze))
 		{
 			playerCam.eye.set(playerLocation.x, playerLocation.y, playerLocation.z);
 			return;
 		}
 		
-		playerLocation.x += strafe.x*deltaTime;
+		playerLocation.x += deltaRStrafe.x;
 		//playerLocation.y += strafe.y*deltaTime;
-		playerLocation.z += strafe.z*deltaTime;
-		playerCam.move(strafe.scalar(deltaTime));
+		playerLocation.z += deltaRStrafe.z;
+		playerCam.move(deltaRStrafe);
 		//playerCam.slide(strafe.x*deltaTime, strafe.y*deltaTime, strafe.z*deltaTime);
 	}
 	
 	public void strafeLeft(float deltaTime)
 	{
-		if(Collision.collide(playerLocation, strafe.scalar(-1), radius, maze))
+		Vector3D deltaLStrafe = strafe.scalar(-deltaTime);
+		if(Collision.collide(playerLocation, deltaLStrafe, radius, maze))
 		{
 			playerCam.eye.set(playerLocation.x, playerLocation.y, playerLocation.z);
 			return;
 		}
 		
-		playerLocation.x += -strafe.x*deltaTime;
+		playerLocation.x += deltaLStrafe.x;
 		//playerLocation.y += -strafe.y*deltaTime;
-		playerLocation.z += -strafe.z*deltaTime;
-		playerCam.move(strafe.scalar(-deltaTime));
+		playerLocation.z += deltaLStrafe.z;
+		playerCam.move(deltaLStrafe);
 		//playerCam.slide(-strafe.x*deltaTime, -strafe.y*deltaTime, -strafe.z*deltaTime);
 	}
 	

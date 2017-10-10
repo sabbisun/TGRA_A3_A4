@@ -49,7 +49,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		maze = new Maze(5);
 		//maze.setPrison();
 		//maze.setFull();
-		maze.setTest2();
+		maze.setTest3();
 		//maze.setMaze();
 		maze.printMaze();
 		maze.printSetup();
@@ -275,6 +275,21 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				//	continue;
 				//drawCell(maze.cells[x][z], new Point3D(x,0,z));
 				
+				if(x == 1 && z == 1)
+				{
+					ModelMatrix.main.pushMatrix();
+					
+					Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.5f, 0.5f, 1.0f);
+					ModelMatrix.main.addTranslation(x, -0.5f, z);
+					
+					ModelMatrix.main.addScale(1.0f, 0.1f, 1.0f);
+					ModelMatrix.main.setShaderMatrix();
+					
+					BoxGraphic.drawSolidCube();
+					
+					ModelMatrix.main.popMatrix();
+				}
+				
 				ModelMatrix.main.pushMatrix();
 				
 				Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.2f, 0.2f, 1.0f);
@@ -287,6 +302,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				
 				ModelMatrix.main.popMatrix();
 				// South east corner
+				/*
 				if(maze.cells[x][z].south() || maze.cells[x][z].east()
 						|| (x < maze.size() - 1 && maze.cells[x+1][z].south())
 						|| (z < maze.size() - 1 && maze.cells[x][z+1].east()))
@@ -303,7 +319,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					
 					ModelMatrix.main.popMatrix();
 				}
-				
+				*/
+				// Expanding walls to intersect, inbetween piece not good in collision
 				// East wall
 				if(maze.cells[x][z].east())
 				{
@@ -312,7 +329,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 0.5f, 1.0f);
 					
 					ModelMatrix.main.addTranslation(x+0.5f, 0.0f, z-0.0f);
-					ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f);
+					ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f+0.2f);
 					
 					ModelMatrix.main.setShaderMatrix();
 					BoxGraphic.drawSolidCube();
@@ -327,7 +344,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					Gdx.gl.glUniform4f(colorLoc, 0.5f, 1.0f, 0.0f, 1.0f);
 					ModelMatrix.main.addTranslation(x-0.0f, 0.0f, z+0.5f);
 					
-					ModelMatrix.main.addScale(0.8f, 1.0f, 0.2f);
+					ModelMatrix.main.addScale(0.8f+0.2f, 1.0f, 0.2f);
 					ModelMatrix.main.setShaderMatrix();
 					
 					BoxGraphic.drawSolidCube();
@@ -350,7 +367,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			if(viewNum == 0)
 			{
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				playerOne.playerCam.perspectiveProjection(fov, 2.0f, 0.4f, 100.0f);
+				playerOne.playerCam.perspectiveProjection(fov, 2.0f, 0.1f, 100.0f);
 				playerOne.playerCam.setShaderMatrices();
 			}
 			else
@@ -364,84 +381,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			//drawCell(tempCell, new Point3D(5.0f,0,0));
 			//maze.printMaze();
 			drawMaze(maze);
-			
-			ModelMatrix.main.loadIdentityMatrix();
-			
-			ModelMatrix.main.pushMatrix();
-			
-			Gdx.gl.glUniform4f(colorLoc, 1.0f, 0.5f, 0.0f, 1.0f);
-			ModelMatrix.main.addTranslation(0.0f, 0.0f, -7.0f);
-			ModelMatrix.main.pushMatrix();
-			
-			ModelMatrix.main.addScale(50, 1, 0.2f);
-			ModelMatrix.main.setShaderMatrix();
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-			
-			ModelMatrix.main.addTranslation(24.9f, 0, 24.9f);
-			
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(0.2f, 1, 50);
-			ModelMatrix.main.setShaderMatrix();
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-			
-			ModelMatrix.main.addTranslation(-24.9f, 0, 24.9f);
-			
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(50, 1, 0.2f);
-			ModelMatrix.main.setShaderMatrix();
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-			
-			ModelMatrix.main.addTranslation(-24.9f, 0, -24.9f);
-			
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addScale(0.2f, 1, 50);
-			ModelMatrix.main.setShaderMatrix();
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-			
-			Gdx.gl.glUniform4f(colorLoc, 0.0f, 1.0f, 0.0f, 1.0f);
-			ModelMatrix.main.addTranslation(10.0f, 5.0f, 2.0f);
-			ModelMatrix.main.pushMatrix();
-			
-			/*
-			for(int level = 0; level < 10; level++)
-			{
-				ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
-				
-				ModelMatrix.main.pushMatrix();
-				for(int i = 0; i < 10 - level; i++)
-				{
-					ModelMatrix.main.addTranslation(1.1f, 0, 0);
-					ModelMatrix.main.pushMatrix();
-					for(int j = 0; j < 10 - level; j++)
-					{
-						ModelMatrix.main.addTranslation(0, 0, -1.1f);
-						ModelMatrix.main.pushMatrix();
-						ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
-						ModelMatrix.main.setShaderMatrix();
-						SphereGraphic.drawSolidSphere();
-						ModelMatrix.main.popMatrix();
-					}
-					ModelMatrix.main.popMatrix();
-				}
-				ModelMatrix.main.popMatrix();
-			}
-			*/
-			ModelMatrix.main.popMatrix();
-			
-			
-			
-			
-			ModelMatrix.main.popMatrix();// added this to fix first push, needs to be same amount of push and pop
-			
-			
 			
 			
 			if(viewNum == 1)

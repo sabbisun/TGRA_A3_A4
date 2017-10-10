@@ -24,9 +24,8 @@ public class Collision {
 		{
 			if(0 < zPos && maze.cells[xPos][zPos-1].south())
 			{
-				if(playerLocation.z - radius < zPos)
+				if(playerLocation.z + vector.z - radius < zPos)
 				{
-					playerLocation.z = zPos + radius;
 					return true;
 				}
 			}
@@ -37,9 +36,8 @@ public class Collision {
 		{
 			if(xPos < maze.size() && maze.cells[xPos][zPos].east())
 			{
-				if(playerLocation.x + radius > xPos + 1.0f)
+				if(playerLocation.x + vector.x + radius > xPos + 1.0f)
 				{
-					playerLocation.x = xPos + 1.0f - radius;
 					return true;
 				}
 			}
@@ -50,9 +48,8 @@ public class Collision {
 		{
 			if(zPos < maze.size() && maze.cells[xPos][zPos].south())
 			{
-				if(playerLocation.z + radius > zPos + 1.0f)
+				if(playerLocation.z + vector.z + radius > zPos + 1.0f)
 				{
-					playerLocation.z = zPos + 1.0f - radius;
 					return true;
 				}
 			}
@@ -62,9 +59,8 @@ public class Collision {
 		{
 			if(0 < xPos && maze.cells[xPos-1][zPos].east())
 			{
-				if(playerLocation.x - radius < xPos)
+				if(playerLocation.x + vector.x - radius < xPos)
 				{
-					playerLocation.x = xPos + radius;
 					return true;
 				}			
 			}
