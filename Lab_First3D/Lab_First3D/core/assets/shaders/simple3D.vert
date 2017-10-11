@@ -3,6 +3,9 @@
 precision mediump float;
 #endif
 
+//variables used and accessed from the outside
+//make sure to use the variables declared
+
 attribute vec3 a_position;
 attribute vec3 a_normal;
 
@@ -10,9 +13,13 @@ uniform mat4 u_modelMatrix;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 
-uniform vec4 u_color;
+uniform vec4 u_lightPosition;
+uniform vec4 u_lightDiffuse;
 
-varying vec4 v_color;
+uniform vec4 u_materialDiffuse;
+
+//used inside here and set to the fragment shader
+varying vec4 v_color; //flows between shaders
 
 void main()
 {
@@ -23,13 +30,20 @@ void main()
 	normal = u_modelMatrix * normal;
 	
 	//global coords
+	//Lighting
+	
+	vec4 s = u_lightPosition - position;	
+	//how the light hits the object
+	float lambert = dot(normal, s) / (length(normal)*length(s)); //normal and direction to the light
+	v_color = lambert*u_lightDiffuse*u_materialDiffuse; //vectors multiplied component wise
 
 	position = u_viewMatrix * position;
-	normal = u_viewMatrix * normal;
+	//normal = u_viewMatrix * normal;
 	
 	//eye coords
 
-	v_color = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z,0)))/*vec4(0,0,1,0)*/) / length(normal)) * u_color;
+	//v_color = max(0, (dot(normal, vec4(0,0,1,0))/ length(normal)))* u_color;
+	//v_color = max(0, (dot(normal, normalize(vec4(-position.x, -position.y, -position.z,0)))/ length(normal))) * u_color;
 
 	gl_Position = u_projectionMatrix * position;
 }
