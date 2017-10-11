@@ -75,11 +75,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
-		cam = new Camera();
+		cam = new Camera(shader);
 		//cam.perspectiveProjection(fov, 1.0f, 0.4f, 100.0f);
 		//cam.look(new Point3D(3.0f, 0, 10.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 		
-		orthoCam = new Camera();
+		orthoCam = new Camera(shader);
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 0.0f, 100);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		//orthoCam.look(new Point3D(-3f,2f,3f), new Point3D(0,3,0), new Vector3D(0,1,0));
@@ -238,6 +238,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				
 				ModelMatrix.main.pushMatrix();
 				
+				
 				shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 				shader.setMaterialDiffuse(1.0f, 0.2f, 0.2f, 1.0f);
 				ModelMatrix.main.addTranslation(x, -0.5f, z);
@@ -341,7 +342,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI/180.0));
 			
 			shader.setLightDiffuse(s, 0.3f, c, 1.0f);
+			shader.setLightSpecular(s, 0.3f, c, 1.0f);
 			
+			shader.setMaterialSpecular(0.3f, 0.3f, 0.3f, 1.0f);
+			shader.setMaterialShininess(10);
 			shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 			ModelMatrix.main.pushMatrix();
 			ModelMatrix.main.addTranslation(10.0f, 4.0f, -5.0f);
