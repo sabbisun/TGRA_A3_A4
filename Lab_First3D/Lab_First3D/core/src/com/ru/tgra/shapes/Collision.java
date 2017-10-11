@@ -31,6 +31,44 @@ public class Collision {
 					return true;
 				}
 			}
+			
+			// Check if colliding with eastwall going north, hitting the south side
+			/*
+			 *   |
+			 * __|__
+			 * A
+			 * |
+			 */
+			
+			if(zPos > 0 && maze.cells[xPos][zPos-1].east())
+			{
+				if(xPos+0.9f < playerLocation.x && playerLocation.x < xPos + 1.0f)
+				{
+					if(playerLocation.z + vector.z - radius + 0.15 < zPos)
+					{
+						return true;
+					}
+				}
+			}
+			
+			// Check if colliding with eastwall going north, hitting the south side
+			/*
+			 *   |
+			 * __|__
+			 *    A
+			 *    |
+			 */
+			
+			if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east())
+			{
+				if(xPos < playerLocation.x && playerLocation.x < xPos + 0.1f)
+				{
+					if(playerLocation.z + vector.z - radius + 0.15 < zPos)
+					{
+						return true;
+					}
+				}
+			}
 		}
 			
 		// Check east wall
@@ -45,11 +83,16 @@ public class Collision {
 				}
 			}
 			
-			// Check if colliding with southwall from east
+			// Check if colliding with southwall going east, hitting the west side
+			/*    _____
+			 * ->|	
+			 *   ------
+			 * 	 |_____
+			 */
 			if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south())
 			{
-				System.out.println("hitting southwall from north-east");
-				System.out.println("Direction: " + vector.string());
+				//System.out.println("hitting southwall going north-east");
+				//System.out.println("Direction: " + vector.string());
 				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
 				{
 					System.out.println("Within boundry");
@@ -59,11 +102,16 @@ public class Collision {
 					}
 				}
 			}
-			
+			// Check if colliding with southwall going east, hitting the west side
+			/*    _____
+			 *   |	
+			 *   ------
+			 * ->|_____
+			 */
 			if(zPos > 0 && xPos< maze.size() - 1 && maze.cells[xPos+1][zPos-1].south())
 			{
-				System.out.println("hitting southwall from south-east");
-				System.out.println("Direction: " + vector.string());
+				//System.out.println("hitting southwall going south-east");
+				//System.out.println("Direction: " + vector.string());
 				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
 				{
 					System.out.println("Within boundry");
@@ -73,7 +121,6 @@ public class Collision {
 					}
 				}
 			}
-			
 		}
 		
 		// Check south wall
@@ -91,7 +138,44 @@ public class Collision {
 					return true;
 				}
 				//System.out.println("Check south: loc " + playerLocation.z + ", vec " + vector.z + " radius " + radius + "zPos + 1 " + (zPos+1));
-				
+			}
+			
+			// Check if colliding with eastwall going south, hitting the north side
+			/*
+			 *  |
+			 *  V
+			 * __ __
+			 *   |
+			 *   |
+			 */
+			
+			if(zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east())
+			{
+				if(xPos + 0.9f < playerLocation.x && playerLocation.x < xPos + 1.0f)
+				{
+					if(playerLocation.z + vector.z + radius - 0.15f > zPos + 1.0f)
+					{
+						return true;	
+					}
+				}
+			}
+			// Check if colliding with eastwall going south, hitting the north side
+			/*
+			 *    |
+			 *    V
+			 * __ __
+			 *   |
+			 *   |
+			 */
+			if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east())
+			{
+				if(xPos < playerLocation.x && playerLocation.x < xPos + 0.1f)
+				{
+					if(playerLocation.z + vector.z + radius - 0.15f > zPos + 1.0f)
+					{
+						return true;	
+					}
+				}
 			}
 		}
 		// Check west wall
@@ -103,6 +187,41 @@ public class Collision {
 				{
 					return true;
 				}			
+			}
+			
+			// Check if colliding with southwall going west, hitting the east side
+			/*______
+			 * 		| 
+			 * ------
+			 *______| <- 
+			 */
+			if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
+			{
+				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
+				{
+					if(playerLocation.x + vector.x - radius + 0.15f < xPos)
+					{
+						return true;
+					}
+				}
+				
+			}
+			
+			// Check if colliding with southwall going west, hitting the east side
+			/* _____
+			 * 		| <-
+			 * ------
+			 * _____|
+			 */
+			if(xPos > 0 && maze.cells[xPos-1][zPos].south())
+			{
+				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
+				{
+					if(playerLocation.x + vector.x - radius + 0.15f < xPos)
+					{
+						return true;
+					}
+				}
 			}
 		}
 		
