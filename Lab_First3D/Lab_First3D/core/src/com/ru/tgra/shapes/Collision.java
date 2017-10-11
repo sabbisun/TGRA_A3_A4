@@ -456,7 +456,11 @@ public class Collision {
 			 */
 			if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
 			{
-				
+				if(xPos > playerLocation.x - radius + 0.15f 
+				&& zPos + 0.1f > playerLocation.z - radius + 0.15f)
+				{
+					return 0;
+				}
 			}
 		}
 		
@@ -487,7 +491,11 @@ public class Collision {
 			 */
 			if(zPos > 0 && xPos< maze.size() - 1 && maze.cells[xPos+1][zPos-1].south())
 			{
-			
+				if(xPos + 1.0f < playerLocation.x + (radius - 0.15f) 
+				&& zPos + 0.1f > playerLocation.z - (radius - 0.15f))
+				{
+					return 0;
+				}
 			}
 			
 			
@@ -583,7 +591,7 @@ public class Collision {
 		
 		result = checkCorners(playerLocation, vector, radius, maze, xPos, zPos);
 		
-		return -1;
+		return result;
 	}
 	
 	Vector3D collideCorner(Point3D playerLocation, Vector3D vector, float radius, Maze maze)
