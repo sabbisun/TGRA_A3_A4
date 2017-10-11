@@ -20,7 +20,7 @@ public class Camera {
 	float top;
 	float near;
 	float far;
-	Shader shader;
+	//Shader shader;
 	
 	private FloatBuffer matrixBuffer;
 	
@@ -33,8 +33,8 @@ public class Camera {
 		v = new Vector3D(0,1,0);
 		n = new Vector3D(0,0,1);
 	
-		this.shader = shader;
-		this.shader.setEyePosition(eye.x, eye.y, eye.z);
+		//this.shader = shader;
+		//this.shader.setEyePosition(eye.x, eye.y, eye.z);
 		
 		orthographic = true;
 		
@@ -73,12 +73,12 @@ public class Camera {
 		n.normalize();
 		u.normalize();
 		v = n.cross(u);
-		this.shader.setEyePosition(eye.x, eye.y, eye.z);
+		//this.shader.setEyePosition(eye.x, eye.y, eye.z);
 	}
 	public void setEye(float x, float y, float z)
 	{
 		eye.set(x, y, z);
-		this.shader.setEyePosition(eye.x, eye.y, eye.z);
+		//this.shader.setEyePosition(eye.x, eye.y, eye.z);
 	}
 	public void slide(float delU, float delV, float delN)
 	{
@@ -93,7 +93,7 @@ public class Camera {
 		eye.y += movement.y;
 		eye.z += movement.z;
 
-		shader.setEyePosition(eye.x, eye.y, eye.z);
+		//shader.setEyePosition(eye.x, eye.y, eye.z);
 	}
 	
 	public void roll(float angle)

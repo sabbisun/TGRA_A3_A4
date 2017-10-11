@@ -19,9 +19,12 @@ public class Shader {
 	private int projectionMatrixLoc;
 
 	//private int colorLoc;
-	private int lightPosLoc;
-	private int lightDifLoc;
-	private int lightSpecLoc;
+	private int lightPosLoc1;
+	private int lightDifLoc1;
+	private int lightSpecLoc1;
+	private int lightPosLoc2;
+	private int lightDifLoc2;
+	private int lightSpecLoc2;
 	private int matDifLoc;
 	private int matAmbLoc;
 	private int matSpecLoc;
@@ -68,9 +71,13 @@ public class Shader {
 
 		//colorLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_color");
 		
-		lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
-		lightDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse");
-		lightSpecLoc			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightSpecular");
+		lightPosLoc1				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition1");
+		lightDifLoc1				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse1");
+		lightSpecLoc1			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightSpecular1");
+		
+		lightPosLoc2				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition2");
+		lightDifLoc2				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse2");
+		lightSpecLoc2			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightSpecular2");
 		
 		matDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialDiffuse");
 		matAmbLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialAmbiance");
@@ -94,19 +101,34 @@ public class Shader {
 		Gdx.gl.glUniform4f(eyePosLoc, x, y, z, 1.0f);
 	}
 	
-	public void setLightPosition(float x, float y, float z, float w)
+	public void setLightPosition1(float x, float y, float z, float w)
 	{
-		Gdx.gl.glUniform4f(lightPosLoc, x, y, z, w);
+		Gdx.gl.glUniform4f(lightPosLoc1, x, y, z, w);
 	}
 	
-	public void setLightDiffuse(float r, float g, float b, float a)
+	public void setLightDiffuse1(float r, float g, float b, float a)
 	{
-		Gdx.gl.glUniform4f(lightDifLoc, r, g, b, a);
+		Gdx.gl.glUniform4f(lightDifLoc1, r, g, b, a);
 	}
 	
-	public void setLightSpecular(float r, float g, float b, float a)
+	public void setLightSpecular1(float r, float g, float b, float a)
 	{
-		Gdx.gl.glUniform4f(lightSpecLoc, r, g, b, a);
+		Gdx.gl.glUniform4f(lightSpecLoc1, r, g, b, a);
+	}
+	
+	public void setLightPosition2(float x, float y, float z, float w)
+	{
+		Gdx.gl.glUniform4f(lightPosLoc2, x, y, z, w);
+	}
+	
+	public void setLightDiffuse2(float r, float g, float b, float a)
+	{
+		Gdx.gl.glUniform4f(lightDifLoc2, r, g, b, a);
+	}
+	
+	public void setLightSpecular2(float r, float g, float b, float a)
+	{
+		Gdx.gl.glUniform4f(lightSpecLoc2, r, g, b, a);
 	}
 	
 	public void setMaterialDiffuse(float r, float g, float b, float a)
@@ -133,10 +155,7 @@ public class Shader {
 	{
 		Gdx.gl.glUniform4f(globalAmbLoc, r, g, b, a);
 	}
-	
-	
-	
-	
+
 	public int getVertexPointer()
 	{
 		return positionLoc;

@@ -45,23 +45,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		Gdx.input.setInputProcessor(this);
 
-		
-/*
-		float[] mm = new float[16];
-
-		mm[0] = 1.0f; mm[4] = 0.0f; mm[8] = 0.0f; mm[12] = 0.0f;
-		mm[1] = 0.0f; mm[5] = 1.0f; mm[9] = 0.0f; mm[13] = 0.0f;
-		mm[2] = 0.0f; mm[6] = 0.0f; mm[10] = 1.0f; mm[14] = 0.0f;
-		mm[3] = 0.0f; mm[7] = 0.0f; mm[11] = 0.0f; mm[15] = 1.0f;
-
-		modelMatrixBuffer = BufferUtils.newFloatBuffer(16);
-		modelMatrixBuffer.put(mm);
-		modelMatrixBuffer.rewind();
-
-		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrixBuffer);
-*/
-
-
 		BoxGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
 		SphereGraphic.create(shader.getVertexPointer(), shader.getNormalPointer());
 		SincGraphic.create(shader.getVertexPointer());
@@ -75,15 +58,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
-		cam = new Camera(shader);
+		cam = new Camera();
 		//cam.perspectiveProjection(fov, 1.0f, 0.4f, 100.0f);
 		//cam.look(new Point3D(3.0f, 0, 10.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 		
-		orthoCam = new Camera(shader);
+		orthoCam = new Camera();
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 0.0f, 100);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		//orthoCam.look(new Point3D(-3f,2f,3f), new Point3D(0,3,0), new Vector3D(0,1,0));
-		playerOne = new Player(new Point3D(3.0f, 0, 10.0f), new Vector3D(0, 0, -1.0f), 2, cam, orthoCam, maze);
+		playerOne = new Player(new Point3D(3.0f, 0, 10.0f), new Vector3D(0, 0, -1.0f), 2, cam, orthoCam, maze, shader);
 	
 		shader.setGlobalAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 	}
@@ -325,7 +308,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			{
 				Gdx.gl.glViewport(Gdx.graphics.getWidth()-250, Gdx.graphics.getHeight()-250, 250, 250);
 				playerOne.mapLocation.look(new Point3D(cam.eye.x, 20.0f, cam.eye.z), cam.eye, new Vector3D(0, 0, -1));
-				//orthoCam.look(new Point3D(7.0f, 40.0f, -7.0f), new Point3D(7.0f, 0.0f, -7.0f), new Vector3D(0, 0, -1));
 				shader.setViewMatrix(orthoCam.getViewMatrix());
 				shader.setProjectionMatrix(orthoCam.getProjectionMatrix());
 			}
@@ -335,16 +317,18 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			float s = (float)Math.sin(angle*Math.PI/180.0);
 			float c = (float)Math.cos(angle*Math.PI/180.0);
 			
-			shader.setLightPosition(10.0f + c*10.0f, 4.0f, -5.0f + s * 10.0f, 1.0f);
-			//shader.setLightPosition(c, 4.0f, s, 1.0f);
+			shader.setEyePosition(0,0,0);
+			shader.setLightPosition1(10.0f, 4.0f, -5.0f, 1.0f);
+			//shader.setLightPosition1(c, 4.0f, s, 1.0f);
 			
 			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI/180.0));
 			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI/180.0));
 			
-			shader.setLightDiffuse(s, 0.3f, c, 1.0f);
-			shader.setLightSpecular(s, 0.3f, c, 1.0f);
+			shader.setLightDiffuse1(1.0f, 0.0f, 0.0f, 1.0f);
+			shader.setLightSpecular1(1.0f, 0.3f, 1.0f, 1.0f);
 			
-			shader.setMaterialSpecular(0.3f, 0.3f, 0.3f, 1.0f);
+			shader.setMaterialSpecular(1.0f, 0.3f, 0.3f, 1.0f);
+			shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
 			shader.setMaterialShininess(10);
 			shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 			ModelMatrix.main.pushMatrix();
@@ -354,6 +338,27 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			ModelMatrix.main.popMatrix();
 			//drawCell(tempCell, new Point3D(5.0f,0,0));
 			//maze.printMaze();
+			
+			shader.setEyePosition(0,0,0);
+			shader.setLightPosition2(-10.0f, 4.0f, 5.0f, 1.0f);
+			//shader.setLightPosition2(c, 4.0f, s, 1.0f);
+			
+			s = Math.abs((float)Math.sin((angle / 200.3) * Math.PI/180.0));
+			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI/180.0));
+			
+			shader.setLightDiffuse1(1.0f, 0.0f, 0.0f, 1.0f);
+			shader.setLightSpecular1(1.0f, 0.3f, 1.0f, 1.0f);
+			
+			shader.setMaterialSpecular(0.0f, 0.3f, 0.3f, 1.0f);
+			shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
+			shader.setMaterialShininess(100);
+			shader.setMaterialDiffuse(1.0f, 0.5f, 1.0f, 1.0f);
+			ModelMatrix.main.pushMatrix();
+			ModelMatrix.main.addTranslation(-10.0f, 4.0f, 5.0f);
+			shader.setModelMatrix(ModelMatrix.main.getMatrix());
+			SphereGraphic.drawSolidSphere();
+			ModelMatrix.main.popMatrix();
+			
 			drawMaze(maze);
 			
 			
