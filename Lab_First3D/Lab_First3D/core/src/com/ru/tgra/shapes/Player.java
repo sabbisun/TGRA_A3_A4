@@ -113,10 +113,15 @@ public class Player {
 		while(true)
 		{
 			int test = Collision.collideInt(playerLocation, vector, radius, maze);
-			if(test == 0)
+			if(test < 0)
 			{
 				// No collision break
 				break;
+			}
+			else if(test == 0)
+			{
+				// Corner collision
+				vector.set(0, 0, 0);
 			}
 			else if (test == 1)
 			{
