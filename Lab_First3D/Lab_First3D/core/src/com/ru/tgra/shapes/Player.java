@@ -17,12 +17,15 @@ public class Player {
 	float minAngle;
 	float pitchMovement;
 	float yawMovement;
+	Shader shader;
 	
-	Player(Point3D location, Vector3D forward, float speed, Camera viewCam, Camera mapLocation, Maze maze){
+	Player(Point3D location, Vector3D forward, float speed, Camera viewCam, Camera mapLocation, Maze maze, Shader shader){
 		this.playerCam = viewCam;
 		this.mapLocation = mapLocation;
 		this.playerLocation = location;
 		this.maze = maze;
+		this.shader = shader;
+		
 		
 		this.pitchMovement = 90.0f;
 		this.yawMovement = 90.0f;
@@ -40,6 +43,7 @@ public class Player {
 		
 		
 		playerCam.look(playerLocation, playerLocation.movement(forward), new Vector3D(0,1.0f,0));
+		shader.setEyePosition(playerCam.eye.x, playerCam.eye.y, playerCam.eye.z);
 		
 		System.out.println(playerCam.eye.string()+ " == " + playerLocation.string());
 	}
@@ -137,6 +141,7 @@ public class Player {
 		playerLocation.x += vector.x;
 		playerLocation.z += vector.z;
 		playerCam.move(vector);
+		shader.setEyePosition(playerCam.eye.x, playerCam.eye.y, playerCam.eye.z);
 	}
 	
 	public void forward(float deltaTime)
