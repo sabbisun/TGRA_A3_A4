@@ -44,6 +44,7 @@ public class Player {
 		System.out.println(playerCam.eye.string()+ " == " + playerLocation.string());
 	}
 	
+	/*
 	public void forward(float deltaTime)
 	{	
 		Vector3D deltaForward = forward.scalar(deltaTime);
@@ -104,6 +105,57 @@ public class Player {
 		playerLocation.z += deltaLStrafe.z;
 		playerCam.move(deltaLStrafe);
 		//playerCam.slide(-strafe.x*deltaTime, -strafe.y*deltaTime, -strafe.z*deltaTime);
+	}
+	*/
+	
+	private void walk(Vector3D vector)
+	{
+		while(true)
+		{
+			int test = Collision.collideInt(playerLocation, vector, radius, maze);
+			if(test == 0)
+			{
+				// No collision break
+				break;
+			}
+			else if (test == 1)
+			{
+				// Collision on x axis
+				vector.set(0, 0, vector.z);
+			}
+			else if (test == 3)
+			{
+				// Collision on z axis
+				vector.set(vector.x, 0, 0);
+			}
+		}
+		playerLocation.x += vector.x;
+		playerLocation.z += vector.z;
+		playerCam.move(vector);
+	}
+	
+	public void forward(float deltaTime)
+	{	
+		Vector3D deltaForward = forward.scalar(deltaTime);
+		walk(deltaForward);
+	}
+	
+	public void backward(float deltaTime)
+	{
+		Vector3D deltaBackward = forward.scalar(-deltaTime);
+		walk(deltaBackward);
+	}
+	
+	public void strafeRight(float deltaTime)
+	{
+		Vector3D deltaRStrafe = strafe.scalar(deltaTime);
+		walk(deltaRStrafe);
+	}
+	
+	public void strafeLeft(float deltaTime)
+	{
+		Vector3D deltaLStrafe = strafe.scalar(-deltaTime);
+		walk(deltaLStrafe);
 	}
 	
 	public void movement(Vector3D vector, float deltaTime)
