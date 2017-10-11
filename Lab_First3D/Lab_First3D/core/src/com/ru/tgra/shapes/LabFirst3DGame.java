@@ -85,6 +85,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//orthoCam.look(new Point3D(-3f,2f,3f), new Point3D(0,3,0), new Vector3D(0,1,0));
 		playerOne = new Player(new Point3D(3.0f, 0, 10.0f), new Vector3D(0, 0, -1.0f), 2, cam, orthoCam, maze);
 	
+		shader.setGlobalAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 
 	private void input()
@@ -155,7 +156,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			fov += 30.0f * deltaTime;
 		}
 	}
-	
+
+/*
 	private void drawCell(RoomCell cell)
 	{
 		//ModelMatrix.main.loadIdentityMatrix();
@@ -204,7 +206,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		ModelMatrix.main.popMatrix();
 	}
-	
+*/
 	private void drawMaze(Maze maze)
 	{
 		//ModelMatrix.main.loadIdentityMatrix();
@@ -222,6 +224,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				{
 					ModelMatrix.main.pushMatrix();
 					
+					shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 					shader.setMaterialDiffuse(1.0f, 0.5f, 0.5f, 1.0f);
 					ModelMatrix.main.addTranslation(x, -0.5f, z);
 					
@@ -235,6 +238,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				
 				ModelMatrix.main.pushMatrix();
 				
+				shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 				shader.setMaterialDiffuse(1.0f, 0.2f, 0.2f, 1.0f);
 				ModelMatrix.main.addTranslation(x, -0.5f, z);
 				
@@ -269,6 +273,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				{
 					ModelMatrix.main.pushMatrix();
 					
+					shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 					shader.setMaterialDiffuse(0.0f, 1.0f, 0.5f, 1.0f);
 					
 					ModelMatrix.main.addTranslation(x+0.5f, 0.0f, z-0.0f);
@@ -284,6 +289,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				{
 					ModelMatrix.main.pushMatrix();
 					
+					shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
 					shader.setMaterialDiffuse(0.5f, 1.0f, 0.0f, 1.0f);
 					ModelMatrix.main.addTranslation(x-0.0f, 0.0f, z+0.5f);
 					

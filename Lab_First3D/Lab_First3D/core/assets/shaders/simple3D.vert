@@ -17,6 +17,9 @@ uniform vec4 u_lightPosition;
 uniform vec4 u_lightDiffuse;
 
 uniform vec4 u_materialDiffuse;
+uniform vec4 u_materialAmbiance;
+
+uniform vec4 u_globalAmbiance;
 
 //used inside here and set to the fragment shader
 varying vec4 v_color; //flows between shaders
@@ -36,6 +39,7 @@ void main()
 	//how the light hits the object
 	float lambert = dot(normal, s) / (length(normal)*length(s)); //normal and direction to the light
 	v_color = lambert*u_lightDiffuse*u_materialDiffuse; //vectors multiplied component wise
+	v_color += u_materialAmbiance*u_globalAmbiance;
 
 	position = u_viewMatrix * position;
 	//normal = u_viewMatrix * normal;

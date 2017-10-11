@@ -22,6 +22,8 @@ public class Shader {
 	private int lightPosLoc;
 	private int lightDifLoc;
 	private int matDifLoc;
+	private int matAmbLoc;
+	private int globalAmbLoc;
 	
 	public Shader()
 	{
@@ -65,6 +67,8 @@ public class Shader {
 		lightPosLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
 		lightDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse");
 		matDifLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialDiffuse");
+		matAmbLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialAmbiance");
+		globalAmbLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_globalAmbiance");
 
 		Gdx.gl.glUseProgram(renderingProgramID);
 	}
@@ -87,6 +91,16 @@ public class Shader {
 	public void setMaterialDiffuse(float r, float g, float b, float a)
 	{
 		Gdx.gl.glUniform4f(matDifLoc, r, g, b, a);
+	}
+	
+	public void setMaterialAmibance(float r, float g, float b, float a)
+	{
+		Gdx.gl.glUniform4f(matAmbLoc, r, g, b, a);
+	}
+	
+	public void setGlobalAmibance(float r, float g, float b, float a)
+	{
+		Gdx.gl.glUniform4f(globalAmbLoc, r, g, b, a);
 	}
 	
 	
