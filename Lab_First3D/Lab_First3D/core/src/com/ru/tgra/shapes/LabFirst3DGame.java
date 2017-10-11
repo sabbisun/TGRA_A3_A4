@@ -318,8 +318,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			float c = (float)Math.cos(angle*Math.PI/180.0);
 			
 			shader.setEyePosition(0,0,0);
-			//shader.setLightPosition1(-100.0f, 4.0f, -5.0f, 1.0f);
-			shader.setLightPosition1(c, 4.0f, s, 1.0f);
+			shader.setLightPosition1(10.0f, 4.0f, -5.0f, 1.0f);
+			//shader.setLightPosition1(c, 4.0f, s, 1.0f);
 			
 			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI/180.0));
 			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI/180.0));
@@ -340,7 +340,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			//maze.printMaze();
 			
 			shader.setEyePosition(0,0,0);
-			shader.setLightPosition2(100.0f, 4.0f, -5.0f, 1.0f);
+			shader.setLightPosition2(-10.0f, 4.0f, 5.0f, 1.0f);
 			//shader.setLightPosition2(c, 4.0f, s, 1.0f);
 			
 			s = Math.abs((float)Math.sin((angle / 200.3) * Math.PI/180.0));
