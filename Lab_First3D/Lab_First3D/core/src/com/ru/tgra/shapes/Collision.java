@@ -44,7 +44,7 @@ public class Collision {
 			{
 				if(xPos+0.9f < playerLocation.x && playerLocation.x < xPos + 1.0f)
 				{
-					if(playerLocation.z + vector.z - radius + 0.15 < zPos)
+					if(playerLocation.z + vector.z - (radius - 0.15) < zPos)
 					{
 						return true;
 					}
@@ -63,7 +63,7 @@ public class Collision {
 			{
 				if(xPos < playerLocation.x && playerLocation.x < xPos + 0.1f)
 				{
-					if(playerLocation.z + vector.z - radius + 0.15 < zPos)
+					if(playerLocation.z + vector.z - (radius - 0.15) < zPos)
 					{
 						return true;
 					}
@@ -96,7 +96,7 @@ public class Collision {
 				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
 				{
 					System.out.println("Within boundry");
-					if(playerLocation.x + vector.x + radius - 0.15f > xPos + 1.0f)
+					if(playerLocation.x + vector.x + (radius - 0.15) > xPos + 1.0f)
 					{
 						return true;
 					}
@@ -115,7 +115,7 @@ public class Collision {
 				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
 				{
 					System.out.println("Within boundry");
-					if(playerLocation.x + vector.x + radius - 0.15f > xPos + 1.0f)
+					if(playerLocation.x + vector.x + (radius - 0.15) > xPos + 1.0f)
 					{
 						return true;
 					}
@@ -153,7 +153,7 @@ public class Collision {
 			{
 				if(xPos + 0.9f < playerLocation.x && playerLocation.x < xPos + 1.0f)
 				{
-					if(playerLocation.z + vector.z + radius - 0.15f > zPos + 1.0f)
+					if(playerLocation.z + vector.z + (radius - 0.15) > zPos + 1.0f)
 					{
 						return true;	
 					}
@@ -171,7 +171,7 @@ public class Collision {
 			{
 				if(xPos < playerLocation.x && playerLocation.x < xPos + 0.1f)
 				{
-					if(playerLocation.z + vector.z + radius - 0.15f > zPos + 1.0f)
+					if(playerLocation.z + vector.z + (radius - 0.15) > zPos + 1.0f)
 					{
 						return true;	
 					}
@@ -199,7 +199,7 @@ public class Collision {
 			{
 				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
 				{
-					if(playerLocation.x + vector.x - radius + 0.15f < xPos)
+					if(playerLocation.x + vector.x - (radius - 0.15) < xPos)
 					{
 						return true;
 					}
@@ -216,7 +216,7 @@ public class Collision {
 			{
 				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
 				{
-					if(playerLocation.x + vector.x - radius + 0.15f < xPos)
+					if(playerLocation.x + vector.x - (radius - 0.15) < xPos)
 					{
 						return true;
 					}
@@ -232,7 +232,7 @@ public class Collision {
 		// Check north wall
 		if(vector.z < 0)
 		{
-			//wSystem.out.println("z < 0");
+			// Checking cell wall
 			if(0 < zPos && maze.cells[xPos][zPos-1].south())
 			{
 				if(playerLocation.z + vector.z - radius < zPos)
@@ -240,6 +240,20 @@ public class Collision {
 					return 3;
 				}
 			}
+			
+			// Checking adjacent cell wall
+			/*
+			if(0 < zPos && 0 < xPos && maze.cells[xPos-1][zPos-1].south())
+			{
+				System.out.println("xPos: " + xPos);
+				System.out.println("Player.x: " + playerLocation.x);
+				System.out.println("calc: " + (playerLocation.x + vector.x + (radius - 0.15 )));
+				if(playerLocation.z + vector.z - radius < zPos && playerLocation.x + vector.x < xPos + 0.10f)
+				{
+					return 3;
+				}
+			}
+			*/
 			
 			// Check if colliding with eastwall going north, hitting the south side
 			/*
@@ -253,7 +267,7 @@ public class Collision {
 			{
 				if(xPos+0.9f < playerLocation.x && playerLocation.x < xPos + 1.0f)
 				{
-					if(playerLocation.z + vector.z - radius + 0.15 < zPos)
+					if(playerLocation.z + vector.z - (radius - 0.15) < zPos)
 					{
 						return 3;
 					}
@@ -272,7 +286,7 @@ public class Collision {
 			{
 				if(xPos < playerLocation.x && playerLocation.x < xPos + 0.1f)
 				{
-					if(playerLocation.z + vector.z - radius + 0.15 < zPos)
+					if(playerLocation.z + vector.z - (radius - 0.15) < zPos)
 					{
 						return 3;
 					}
@@ -302,7 +316,7 @@ public class Collision {
 			{
 				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
 				{
-					if(playerLocation.x + vector.x + radius - 0.15f > xPos + 1.0f)
+					if(playerLocation.x + vector.x + (radius - 0.15) > xPos + 1.0f)
 					{
 						return 1;
 					}
@@ -318,7 +332,7 @@ public class Collision {
 			{
 				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
 				{
-					if(playerLocation.x + vector.x + radius - 0.15f > xPos + 1.0f)
+					if(playerLocation.x + vector.x + (radius - 0.15) > xPos + 1.0f)
 					{
 						return 1;
 					}
@@ -351,7 +365,7 @@ public class Collision {
 			{
 				if(xPos + 0.9f < playerLocation.x && playerLocation.x < xPos + 1.0f)
 				{
-					if(playerLocation.z + vector.z + radius - 0.15f > zPos + 1.0f)
+					if(playerLocation.z + vector.z + (radius - 0.15) > zPos + 1.0f)
 					{
 						return 3;	
 					}
@@ -369,7 +383,7 @@ public class Collision {
 			{
 				if(xPos < playerLocation.x && playerLocation.x < xPos + 0.1f)
 				{
-					if(playerLocation.z + vector.z + radius - 0.15f > zPos + 1.0f)
+					if(playerLocation.z + vector.z + (radius - 0.15) > zPos + 1.0f)
 					{
 						return 3;	
 					}
@@ -397,7 +411,7 @@ public class Collision {
 			{
 				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
 				{
-					if(playerLocation.x + vector.x - radius + 0.15f < xPos)
+					if(playerLocation.x + vector.x - (radius - 0.15) < xPos)
 					{
 						return 1;
 					}
@@ -415,7 +429,7 @@ public class Collision {
 			{
 				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
 				{
-					if(playerLocation.x + vector.x - radius + 0.15f < xPos)
+					if(playerLocation.x + vector.x - (radius - 0.15) < xPos)
 					{
 						return 1;
 					}
@@ -425,7 +439,7 @@ public class Collision {
 		return -1;
 	}
 	
-	private static int checkCorners(Point3D playerLocation, Vector3D vector, float radius, Maze maze, int xPos, int zPos)
+	private static int checkCornersInt(Point3D playerLocation, Vector3D vector, float radius, Maze maze, int xPos, int zPos)
 	{
 		
 		// Might collide with south-east corner
@@ -445,7 +459,11 @@ public class Collision {
 			 */
 			if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east())
 			{
-				
+				if(xPos + 0.1f > playerLocation.x - (radius - 0.15)
+					&& zPos > playerLocation.z - (radius - 0.15))
+				{
+					return 0;
+				}
 			}
 			
 			// Check if colliding with southwall going west, hitting the east side
@@ -456,8 +474,8 @@ public class Collision {
 			 */
 			if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
 			{
-				if(xPos > playerLocation.x - radius + 0.15f 
-				&& zPos + 0.1f > playerLocation.z - radius + 0.15f)
+				if(xPos > playerLocation.x - (radius - 0.15) 
+				&& zPos + 0.1f > playerLocation.z - (radius - 0.15))
 				{
 					return 0;
 				}
@@ -480,7 +498,11 @@ public class Collision {
 			 */
 			if(zPos > 0 && maze.cells[xPos][zPos-1].east())
 			{
-				
+				if(xPos + 0.9f < playerLocation.x + (radius - 0.15)
+						&& zPos > playerLocation.z - (radius - 0.15))
+				{
+					return 0;
+				}
 			}
 			
 			// Check if colliding with southwall going east, hitting the west side
@@ -515,7 +537,11 @@ public class Collision {
 			 */
 			if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south())
 			{
-				
+				if(xPos < playerLocation.x + vector.x + (radius - 0.15)
+					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				{
+					return 0;
+				}
 			}
 			
 			// Check if colliding with eastwall going south, hitting the north side
@@ -528,7 +554,11 @@ public class Collision {
 			 */
 			if(zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east())
 			{
-			
+				if(xPos + 0.9f < playerLocation.x + (radius - 0.15)
+						&& zPos + 0.9f < playerLocation.z + (radius - 0.15))
+				{
+					return 0;
+				}
 			}
 		}
 		
@@ -549,7 +579,11 @@ public class Collision {
 			 */
 			if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east())
 			{
-
+				if(xPos + 0.1f > playerLocation.x - (radius - 0.15)
+						&& zPos + 1.0f < playerLocation.z + (radius - 0.15))
+				{
+					return 0;
+				}
 			}
 			
 			// Check if colliding with southwall going west, hitting the east side
@@ -560,13 +594,184 @@ public class Collision {
 			 */
 			if(xPos > 0 && maze.cells[xPos-1][zPos].south())
 			{
-				
+				if(xPos > playerLocation.x + vector.x - (radius - 0.15)
+					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				{
+					return 0;
+				}
 			}
 		}		
 
 		return -1;
 	}
 	
+	
+	private static Point3D checkCorners(Point3D playerLocation, Vector3D vector, float radius, Maze maze, int xPos, int zPos)
+	{
+		
+		// Might collide with south-east corner
+		/*
+		 * ##
+		 * #X
+		 */
+		
+		if(vector.x < 0 || vector.z < 0)
+		{
+			// Check if colliding with eastwall going north, hitting the south side
+			/*
+			 *   |
+			 * __|__
+			 *    A
+			 *    |
+			 */
+			if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east())
+			{
+				if(xPos + 0.1f > playerLocation.x + vector.x - (radius - 0.15)
+					&& zPos > playerLocation.z + vector.z - (radius - 0.15))
+				{
+					return new Point3D(xPos + 0.1f, 0, zPos);
+				}
+			}
+			
+			// Check if colliding with southwall going west, hitting the east side
+			/*______
+			 * 		| 
+			 * ------
+			 *______| <- 
+			 */
+			if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
+			{
+				if(xPos > playerLocation.x + vector.x - (radius - 0.15) 
+				&& zPos + 0.1f > playerLocation.z + vector.z - (radius - 0.15))
+				{
+					return new Point3D(xPos, 0, zPos + 0.1f);
+				}
+			}
+		}
+		
+		// Might collide with south-west corner
+		/*
+		 * ##
+		 * X#
+		 */
+		if(vector.x > 0 || vector.z < 0)
+		{
+			// Check if colliding with eastwall going north, hitting the south side
+			/*
+			 *   |
+			 * __|__
+			 * A
+			 * |
+			 */
+			if(zPos > 0 && maze.cells[xPos][zPos-1].east())
+			{
+				if(xPos + 0.9f < playerLocation.x + vector.x + (radius - 0.15)
+						&& zPos > playerLocation.z + vector.z - (radius - 0.15))
+				{
+					return new Point3D(xPos + 0.9f, 0, zPos);
+				}
+			}
+			
+			// Check if colliding with southwall going east, hitting the west side
+			/*    _____
+			 *   |	
+			 *   ------
+			 * ->|_____
+			 */
+			if(zPos > 0 && xPos< maze.size() - 1 && maze.cells[xPos+1][zPos-1].south())
+			{
+				if(xPos + 1.0f < playerLocation.x + vector.x + (radius - 0.15f) 
+				&& zPos + 0.1f > playerLocation.z + vector.z - (radius - 0.15f))
+				{
+					return new Point3D(xPos + 1.0f, 0, zPos + 0.1f);
+				}
+			}
+			
+			
+		}
+		// Might collide with north-west corner
+		/*
+		 * X#
+		 * ##
+		 */
+		if(vector.x > 0 || vector.z > 0)
+		{
+			// Check if colliding with southwall going east, hitting the west side
+			/*    _____
+			 * ->|	
+			 *   ------
+			 * 	 |_____
+			 */
+			if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south())
+			{
+				if(xPos < playerLocation.x + vector.x + (radius - 0.15)
+					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				{
+					return new Point3D(xPos, 0, zPos + 0.9f);
+				}
+			}
+			
+			// Check if colliding with eastwall going south, hitting the north side
+			/*
+			 *  |
+			 *  V
+			 * __ __
+			 *   |
+			 *   |
+			 */
+			if(zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east())
+			{
+				if(xPos + 0.9f < playerLocation.x + vector.x + (radius - 0.15)
+						&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				{
+					return new Point3D(xPos + 0.9f, 0, zPos + 0.9f); 
+				}
+			}
+		}
+		
+		// Might collide with north-east corner
+		/*
+		 * #X
+		 * ##
+		 */
+		if(vector.x < 0 || vector.z > 0)
+		{
+			// Check if colliding with eastwall going south, hitting the north side
+			/*
+			 *    |
+			 *    V
+			 * __ __
+			 *   |
+			 *   |
+			 */
+			if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east())
+			{
+				if(xPos + 0.1f > playerLocation.x + vector.x - (radius - 0.15)
+						&& zPos + 1.0f < playerLocation.z + vector.z + (radius - 0.15))
+				{
+					return new Point3D(xPos + 0.1f, 0, zPos + 1.0f);
+				}
+			}
+			
+			// Check if colliding with southwall going west, hitting the east side
+			/* _____
+			 * 		| <-
+			 * ------
+			 * _____|
+			 */
+			if(xPos > 0 && maze.cells[xPos-1][zPos].south())
+			{
+				if(xPos > playerLocation.x + vector.x - (radius - 0.15)
+					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				{
+					return new Point3D(xPos, 0, zPos + 0.9f);
+				}
+			}
+		}		
+
+		return new Point3D(-1,-1,-1);
+	}
+		
 	public static int collideInt(Point3D playerLocation, Vector3D vector, float radius, Maze maze)
 	{	
 		int xPos = (int) Math.floor(playerLocation.x);
@@ -589,16 +794,26 @@ public class Collision {
 			return result;
 		}
 		
-		result = checkCorners(playerLocation, vector, radius, maze, xPos, zPos);
+		Point3D corner = checkCorners(playerLocation, vector, radius, maze, xPos, zPos);
+		
+		if(corner.x >= 0 && corner.z >= 0)
+		{
+			//return 0;
+			collideCorner(playerLocation, corner, radius);
+		}
 		
 		return result;
 	}
 	
-	Vector3D collideCorner(Point3D playerLocation, Vector3D vector, float radius, Maze maze)
+	static void collideCorner(Point3D playerLocation, Point3D cornerLocation, float radius)
 	{
-		int xPos = (int) Math.floor(playerLocation.x);
-		int zPos = (int) Math.floor(playerLocation.z);
-		
-		return new Vector3D(0,0,0);
+
+		Vector3D adjustment = cornerLocation.to(playerLocation);
+		if(adjustment.length() < (radius - 0.15))
+		{
+			adjustment.normalize();
+			adjustment.scale(5);
+			playerLocation.movement(adjustment);
+		}
 	}
 }

@@ -116,6 +116,7 @@ public class Player {
 	{
 		while(true)
 		{
+
 			int test = Collision.collideInt(playerLocation, vector, radius, maze);
 			if(test < 0)
 			{

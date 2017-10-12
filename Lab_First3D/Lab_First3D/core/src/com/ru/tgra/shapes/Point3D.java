@@ -39,6 +39,11 @@ public class Point3D {
 		return new Point3D(this.x,this.y,this.z);
 	}
 	
+	public Vector3D to(Point3D P2)
+	{
+		return new Vector3D(P2.x - this.x, P2.y - this.y, P2.z - this.z);
+	}
+	
 	public Point3D movement(Vector3D vector)
 	{
 		return new Point3D(this.x+vector.x, this.y+vector.y, this.z+vector.z);
