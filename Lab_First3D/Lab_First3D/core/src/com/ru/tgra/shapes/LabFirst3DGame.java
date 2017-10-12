@@ -222,13 +222,14 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				
 				ModelMatrix.main.pushMatrix();
 				
-				shader.setLightPosition(i, x, -0.5f, z, 1.0f); //Directional light
-				shader.setLightDiffuse(i, 0.0f, 0.0f, 0.0f, 1.0f);
-				shader.setLightSpecular(i, 0.5f, 0.5f, 0.5f, 1.0f);
-				i++;
-				shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
-				shader.setMaterialDiffuse(1.0f, 0.2f, 0.2f, 1.0f);
-				shader.setMaterialShininess(10);
+				shader.setLightPosition(i, x, -100, z, 1.0f);
+				shader.setLightDiffuse(i, 1.0f, 0.0f, 0.0f, 1.0f);
+				shader.setLightSpecular(i, 1.0f, 0.3f, 1.0f, 1.0f);
+				
+				shader.setMaterialSpecular(0.0f, 0.3f, 0.3f, 1.0f);
+				shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
+				shader.setMaterialShininess(2);
+				shader.setMaterialDiffuse(1.0f, 0.5f, 1.0f, 1.0f);
 				ModelMatrix.main.addTranslation(x, -0.5f, z);
 				
 				ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
