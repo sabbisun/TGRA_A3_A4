@@ -155,10 +155,10 @@ public class Maze {
 		if(size >= 5)
 		{
 			cells[1][1].setEast(true);
-		}
-		if(size >= 5)
-		{
 			cells[1][2].setEast(true);
+			
+			cells[3][3].setSouth(true);
+			cells[4][3].setSouth(true);
 		}
 	}
 	

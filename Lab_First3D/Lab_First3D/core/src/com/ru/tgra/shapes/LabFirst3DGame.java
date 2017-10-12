@@ -32,11 +32,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		shader = new Shader();
 		
-		maze = new Maze(10);
+		maze = new Maze(5);
 		//maze.setPrison();
 		//maze.setFull();
-		//maze.setTest2();
-		maze.setMaze();
+		maze.setTest1();
+		//maze.setMaze();
 		maze.printMaze();
 		maze.printSetup();
 		
@@ -195,6 +195,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//ModelMatrix.main.loadIdentityMatrix();
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(0.5f, 0, 0.5f);
+		shader.setLightPosition(2, 5, -100, 5, 1.0f);
+		shader.setLightDiffuse(2, 1.0f, 1.0f, 1.0f, 1.0f);
+		shader.setLightSpecular(2, 1.0f, 0.3f, 1.0f, 1.0f);
+		// TODO
 		for (int z = 0; z < maze.size(); z++)
 		{
 			int i = 0;
@@ -220,6 +224,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					ModelMatrix.main.popMatrix();
 				}
 				
+				/*
 				ModelMatrix.main.pushMatrix();
 				
 				shader.setLightPosition(i, x, -100, z, 1.0f);
@@ -238,29 +243,58 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				SphereGraphic.drawSolidSphere();
 				
 				ModelMatrix.main.popMatrix();
+				*/
 				// South east corner
-				/*
-				if(maze.cells[x][z].south() || maze.cells[x][z].east()
-						|| (x < maze.size() - 1 && maze.cells[x+1][z].south())
-						|| (z < maze.size() - 1 && maze.cells[x][z+1].east()))
+				
+				boolean pillar = false;
+				boolean[] pillarSides = {false,false,true,true,false,false};
+				float pillarShift = 0;
+				
+				if(maze.cells[x][z].south() && (x < maze.size() - 1 && maze.cells[x+1][z].south()))
+				{
+					//pillar = true;
+					pillarSides[0] = true;
+					pillarSides[1] = true;
+				}
+				if(maze.cells[x][z].east() && (z < maze.size() - 1 && maze.cells[x][z+1].east()))
+				{
+					//pillar = true;
+					pillarSides[4] = true;
+					pillarSides[5] = true;
+				}
+				if(pillar)
 				{
 					ModelMatrix.main.pushMatrix();
 					
-					Gdx.gl.glUniform4f(colorLoc, 0.2f, 1.0f, 0.2f, 1.0f);
-					ModelMatrix.main.addTranslation(x+0.5f, 0.0f, z+0.5f);
+					shader.setMaterialAmibance(0.5f, 0.1f, 0.5f, 1.0f);
+					shader.setMaterialDiffuse(0.0f, 1.0f, 0.5f, 1.0f);
 					
+					ModelMatrix.main.addTranslation(x+0.5f, 0.5f, z+0.5f);
 					ModelMatrix.main.addScale(0.2f, 1.0f, 0.2f);
-					ModelMatrix.main.setShaderMatrix();
 					
-					BoxGraphic.drawSolidCube();
+					shader.setModelMatrix(ModelMatrix.main.getMatrix());
+					
+					BoxGraphic.drawSolidCube(pillarSides);
 					
 					ModelMatrix.main.popMatrix();
 				}
-				*/
+				
 				// Expanding walls to intersect, inbetween piece not good in collision
 				// East wall
 				if(maze.cells[x][z].east())
 				{
+					boolean[] sides = {true,true,true,true,true,true};
+					
+					// Gets rid of unnecessary sides
+					if(z > 0 && maze.cells[x][z-1].east())
+					{
+						sides[0] = false;
+					}
+					if(z < maze.size() -1 && maze.cells[x][z+1].east())
+					{
+						sides[1] = false;
+					}
+					
 					ModelMatrix.main.pushMatrix();
 					
 					shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
@@ -270,13 +304,26 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f+0.2f);
 					
 					shader.setModelMatrix(ModelMatrix.main.getMatrix());
-					BoxGraphic.drawSolidCube();
+					
+					BoxGraphic.drawSolidCube(sides);
 					
 					ModelMatrix.main.popMatrix();
 				}
 				//South wall
 				if(maze.cells[x][z].south())
 				{
+					boolean[] sides = {true,true,true,true,true,true};
+					
+					// Gets rid of unnecessary sides
+					if(x > 0 && maze.cells[x-1][z].south())
+					{
+						sides[4] = false;
+					}
+					if(x < maze.size() -1 && maze.cells[x+1][z].south())
+					{
+						sides[5] = false;
+					}
+					
 					ModelMatrix.main.pushMatrix();
 					
 					shader.setMaterialSpecular(0.0f, 0.3f, 0.3f, 1.0f);
@@ -288,7 +335,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					ModelMatrix.main.addScale(0.8f+0.2f, 1.0f, 0.2f);
 					shader.setModelMatrix(ModelMatrix.main.getMatrix());
 					
-					BoxGraphic.drawSolidCube();
+					BoxGraphic.drawSolidCube(sides);
 					
 					ModelMatrix.main.popMatrix();
 				}

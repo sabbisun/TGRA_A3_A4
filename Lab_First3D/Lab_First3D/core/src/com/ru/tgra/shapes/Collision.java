@@ -241,20 +241,6 @@ public class Collision {
 				}
 			}
 			
-			// Checking adjacent cell wall
-			/*
-			if(0 < zPos && 0 < xPos && maze.cells[xPos-1][zPos-1].south())
-			{
-				System.out.println("xPos: " + xPos);
-				System.out.println("Player.x: " + playerLocation.x);
-				System.out.println("calc: " + (playerLocation.x + vector.x + (radius - 0.15 )));
-				if(playerLocation.z + vector.z - radius < zPos && playerLocation.x + vector.x < xPos + 0.10f)
-				{
-					return 3;
-				}
-			}
-			*/
-			
 			// Check if colliding with eastwall going north, hitting the south side
 			/*
 			 *   |
@@ -471,8 +457,6 @@ public class Collision {
 					{
 						return 3;
 					}
-					
-					//return 0;
 				}
 			}
 			
@@ -683,8 +667,7 @@ public class Collision {
 
 		return -1;
 	}
-	
-	
+		
 	private static Point3D checkCorners(Point3D playerLocation, Vector3D vector, float radius, Maze maze, int xPos, int zPos)
 	{
 		
