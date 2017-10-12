@@ -97,7 +97,7 @@ public class Collision {
 				//System.out.println("Direction: " + vector.string());
 				if(zPos + 0.9f < playerLocation.z && playerLocation.z < zPos + 1.0f)
 				{
-					System.out.println("Within boundry");
+					//System.out.println("Within boundry");
 					if(playerLocation.x + vector.x + (radius - 0.15) > xPos + 1.0f)
 					{
 						return true;
@@ -116,7 +116,7 @@ public class Collision {
 				//System.out.println("Direction: " + vector.string());
 				if(zPos < playerLocation.z && playerLocation.z < zPos + 0.1f)
 				{
-					System.out.println("Within boundry");
+					//System.out.println("Within boundry");
 					if(playerLocation.x + vector.x + (radius - 0.15) > xPos + 1.0f)
 					{
 						return true;
@@ -526,7 +526,7 @@ public class Collision {
 				if(test1 && test2)
 				{
 
-					System.out.println("hitting corner");
+					//System.out.println("hitting corner");
 					float X = (playerLocation.x - (xPos + 0.9f));
 					float Z = (playerLocation.z - (zPos + 0.1f));
 					
@@ -1016,5 +1016,22 @@ public class Collision {
 			adjustment.scale(5);
 			playerLocation.movement(adjustment);
 		}
+	}
+
+	static Vector3D collideObstacle(Player player, Obstacle obstacle)
+	{
+		
+		Vector3D dist = obstacle.obstacleLocation.to(player.playerLocation);
+		
+		System.out.println(dist.length());
+		if (dist.length() < obstacle.radius + player.radius)
+		{
+			//System.out.println("colo");
+			dist.normalize();
+			dist.scale(obstacle.radius + player.radius);
+			return dist;
+			
+		}
+		return new Vector3D(0,0,0);
 	}
 }

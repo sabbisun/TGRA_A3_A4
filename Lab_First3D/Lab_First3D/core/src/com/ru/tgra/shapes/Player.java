@@ -44,8 +44,23 @@ public class Player {
 		
 		playerCam.look(playerLocation, playerLocation.movement(forward), new Vector3D(0,1.0f,0));
 		shader.setEyePosition(playerCam.eye.x, playerCam.eye.y, playerCam.eye.z);
+	}
+	
+	Point3D getLocation()
+	{
+		return new Point3D(this.playerLocation.x,this.playerLocation.y,this.playerLocation.z);
+	}
+	
+	void getPushed(Vector3D vector)
+	{
+		//System.out.println("before" + vector.string());
 		
-		System.out.println(playerCam.eye.string()+ " == " + playerLocation.string());
+		playerLocation.x = vector.x;
+		playerLocation.z = vector.z;
+		playerCam.move(vector);
+		
+		
+		shader.setEyePosition(playerCam.eye.x, playerCam.eye.y, playerCam.eye.z);
 	}
 	
 	private void walk(Vector3D vector)
