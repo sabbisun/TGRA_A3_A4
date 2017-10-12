@@ -19,6 +19,9 @@ public class Shader {
 	private int projectionMatrixLoc;
 
 	//private int colorLoc;
+	private int lightPosLoc0;
+	private int lightDifLoc0;
+	private int lightSpecLoc0;
 	private int lightPosLoc1;
 	private int lightDifLoc1;
 	private int lightSpecLoc1;
@@ -70,7 +73,10 @@ public class Shader {
 		projectionMatrixLoc	= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_projectionMatrix");
 
 		//colorLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_color");
-		
+		lightPosLoc0				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition0");
+		lightDifLoc0				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse0");
+		lightSpecLoc0			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightSpecular0");
+				
 		lightPosLoc1				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition1");
 		lightDifLoc1				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse1");
 		lightSpecLoc1			= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightSpecular1");
@@ -99,6 +105,21 @@ public class Shader {
 	public void setEyePosition(float x, float y, float z)
 	{
 		Gdx.gl.glUniform4f(eyePosLoc, x, y, z, 1.0f);
+	}
+	
+	public void setLightPosition0(float x, float y, float z, float w)
+	{
+		Gdx.gl.glUniform4f(lightPosLoc0, x, y, z, w);
+	}
+	
+	public void setLightDiffuse0(float r, float g, float b, float a)
+	{
+		Gdx.gl.glUniform4f(lightDifLoc0, r, g, b, a);
+	}
+	
+	public void setLightSpecular0(float r, float g, float b, float a)
+	{
+		Gdx.gl.glUniform4f(lightSpecLoc0, r, g, b, a);
 	}
 	
 	public void setLightPosition1(float x, float y, float z, float w)

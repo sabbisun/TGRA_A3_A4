@@ -314,6 +314,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 			ModelMatrix.main.loadIdentityMatrix();
 			
+			shader.setLightPosition0(cam.eye.x, cam.eye.y, cam.eye.z, 1.0f);
+			shader.setLightDiffuse0(1.0f, 1.0f, 1.0f, 1.0f);
+			shader.setLightSpecular0(1.0f, 1.0f, 1.0f, 1.0f);
+			
 			float s = (float)Math.sin(angle*Math.PI/180.0);
 			float c = (float)Math.cos(angle*Math.PI/180.0);
 			
