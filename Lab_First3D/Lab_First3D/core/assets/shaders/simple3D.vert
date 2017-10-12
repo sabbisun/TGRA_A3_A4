@@ -16,17 +16,16 @@ uniform mat4 u_modelMatrix;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 
-uniform vec4 u_lightPosition0;
-uniform vec4 u_lightDiffuse0;
-uniform vec4 u_lightSpecular0;
+const int lightNumber = 10;
 
-uniform vec4 u_lightPosition1;
-uniform vec4 u_lightDiffuse1;
-uniform vec4 u_lightSpecular1;
+struct light
+{
+	vec4 lightPosition;
+	vec4 lightDiffuse;
+	vec4 lightSpecular;
+};
 
-uniform vec4 u_lightPosition2;
-uniform vec4 u_lightDiffuse2;
-uniform vec4 u_lightSpecular2;
+uniform light lights[lightNumber];
 
 uniform vec4 u_materialDiffuse;
 uniform vec4 u_materialAmbiance;
@@ -49,32 +48,30 @@ void main()
 	//global coords
 	//Lighting
 	
-	vec4 s0 = u_lightPosition0;
-	vec4 s1 = u_lightPosition1 - position;	
-	vec4 s2 = u_lightPosition2 - position;	
-	//how the light hits the object
-	float lambert0 = max(0, dot(normal, s0) / (length(normal)*length(s0))); //normal and direction to the light
-	float lambert1 = max(0, dot(normal, s1) / (length(normal)*length(s1))); //normal and direction to the light
-	float lambert2 = max(0, dot(normal, s2) / (length(normal)*length(s2))); //normal and direction to the light
-	
+	vec4 s;
 	vec4 v = u_eyePosition - position; // direction to eye
-	vec4 h0 = v + s0;
-	vec4 h1 = v + s1;
-	vec4 h2 = v + s2;
+	vec4 h;
+	float lambert;
+	float phong;
 	
-	float phong0 = max(0, dot(normal, h0) / (length(normal)*length(h0))); //normal and direction to the light
-	phong0 = pow(phong0, u_shininess);
-	float phong1 = max(0, dot(normal, h1) / (length(normal)*length(h1))); //normal and direction to the light
-	phong1 = pow(phong1, u_shininess);
-	float phong2 = max(0, dot(normal, h2) / (length(normal)*length(h2))); //normal and direction to the light
-	phong2 = pow(phong2, u_shininess);
-
-	v_color = lambert0*u_lightDiffuse0*u_materialDiffuse; //vectors multiplied component wise
-	v_color = lambert1*u_lightDiffuse1*u_materialDiffuse; //vectors multiplied component wise
-	v_color += lambert2*u_lightDiffuse2*u_materialDiffuse; //vectors multiplied component wise
-	v_color += phong0*u_lightSpecular0*u_materialSpecular;
-	v_color += phong1*u_lightSpecular1*u_materialSpecular;
-	v_color += phong2*u_lightSpecular2*u_materialSpecular;
+	for(int i = 0; i < lightNumber; i++)
+	{
+		if(lights[i].lightPosition.w == 0.0f) //for directional light
+		{
+			s = lights[i].lightPosition;
+		}
+		else
+		{
+			s = lights[i].lightPosition - position; //for position light
+		}
+		//how the light hits the object
+		lambert = max(0, dot(normal, s) / (length(normal)*length(s))); //normal and direction to the light
+		h = v + s;
+		phong = max(0, dot(normal, h) / (length(normal)*length(h))); //normal and direction to the light
+		phong = pow(phong, u_shininess);
+		v_color += lambert*lights[i].lightDiffuse*u_materialDiffuse; //vectors multiplied component wise
+		v_color += phong*lights[i].lightSpecular*u_materialSpecular;
+	}
 	v_color += u_materialAmbiance*u_globalAmbiance;
 
 	position = u_viewMatrix * position;
