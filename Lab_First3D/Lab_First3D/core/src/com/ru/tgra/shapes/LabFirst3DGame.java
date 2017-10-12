@@ -32,11 +32,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		shader = new Shader();
 		
-		maze = new Maze(5);
+		maze = new Maze(14);
 		//maze.setPrison();
 		//maze.setFull();
-		maze.setTest1();
+		//maze.setTest1();
 		//maze.setMaze();
+		maze.setMazeCenterRoom();
 		maze.printMaze();
 		maze.printSetup();
 		
@@ -66,9 +67,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//orthoCam.orthographicProjection(-5, 5, -5, 5, 0.0f, 100);
 		orthoCam.orthographicProjection(-10, 10, -10, 10, 3.0f, 100);
 		//orthoCam.look(new Point3D(-3f,2f,3f), new Point3D(0,3,0), new Vector3D(0,1,0));
-		playerOne = new Player(new Point3D(3.0f, 0, 10.0f), new Vector3D(0, 0, -1.0f), 2, cam, orthoCam, maze, shader);
+		playerOne = new Player(new Point3D(1.5f, 0, 1.5f), new Vector3D(0, 0, -1.0f), 2, cam, orthoCam, maze, shader);
 	
 		shader.setGlobalAmibance(0.5f, 0.5f, 0.5f, 1.0f);
+		shader.setEyePosition(0, 0, 0);
 	}
 
 	private void input()
@@ -140,111 +142,49 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 	}
 
-/*
-	private void drawCell(RoomCell cell)
-	{
-		//ModelMatrix.main.loadIdentityMatrix();
-		ModelMatrix.main.pushMatrix();
-		if(cell.south() && cell.east())
-		{
-			ModelMatrix.main.pushMatrix();
-			
-			shader.setMaterialDiffuse(0.2f, 1.0f, 0.2f, 1.0f);
-			ModelMatrix.main.addTranslation(-0.5f, 0.0f, -0.5f);
-			
-			ModelMatrix.main.addScale(0.2f, 1.0f, 0.2f);
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-		}
-		if(cell.east())
-		{
-			ModelMatrix.main.pushMatrix();
-			
-			shader.setMaterialDiffuse(0.0f, 1.0f, 0.5f, 1.0f);
-			
-			ModelMatrix.main.addTranslation(-0.5f, 0.0f, 0.0f);
-			ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f);
-			
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-		}
-		if(cell.south())
-		{
-			ModelMatrix.main.pushMatrix();
-			
-			shader.setMaterialDiffuse(0.5f, 1.0f, 0.0f, 1.0f);
-			ModelMatrix.main.addTranslation(0.0f, 0.0f, -0.5f);
-			
-			ModelMatrix.main.addScale(0.8f, 1.0f, 0.2f);
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			
-			BoxGraphic.drawSolidCube();
-			
-			ModelMatrix.main.popMatrix();
-		}
-		ModelMatrix.main.popMatrix();
-	}
-*/
 	private void drawMaze(Maze maze)
 	{
 		//ModelMatrix.main.loadIdentityMatrix();
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(0.5f, 0, 0.5f);
-		shader.setLightPosition(2, 5, -100, 5, 1.0f);
-		shader.setLightDiffuse(2, 1.0f, 1.0f, 1.0f, 1.0f);
-		shader.setLightSpecular(2, 1.0f, 0.3f, 1.0f, 1.0f);
+
+		shader.setLightColor(0, 1.0f, 0.0f, 0.0f, 1.0f);
+		shader.setLightPosition(0, 1, 3f, 1, 1.0f);
+		
+		shader.setLightColor(1, 0.0f, 0.0f, 1.0f, 1.0f);
+		shader.setLightPosition(1, 1, 3f, maze.size()-1, 1.0f);
+		
+		shader.setLightColor(2, 1.0f, 1.0f, 0.0f, 1.0f);
+		shader.setLightPosition(2, maze.size()-1, 1f, 3, 1.0f);
+		
+		shader.setLightColor(3, 0.0f, 1.0f, 1.0f, 1.0f);
+		shader.setLightPosition(3, maze.size()-1, 3f, maze.size()-1, 1.0f);
+		
+		ModelMatrix.main.pushMatrix();
+		
+		shader.setMaterialAmibance(0.1f, 0.1f, 0.1f, 1.0f);
+		shader.setMaterialDiffuse(0.0f, 1.0f, 0.5f, 1.0f);
+		shader.setMaterialSpecular(0.2f, 0.2f, 0.2f, 1.0f);
+		shader.setMaterialShininess(2);
+		
+		float centerX = (maze.size()-1)/2 + 1.0f - 0.5f*(maze.size()%2);
+		float centerZ = centerX;
+		
+		ModelMatrix.main.addTranslation(centerX, -0.5f, centerZ);
+		ModelMatrix.main.addScale(maze.size()-1, 0.1f, maze.size()-1);
+		
+		shader.setModelMatrix(ModelMatrix.main.getMatrix());
+		
+		BoxGraphic.drawSolidCube();
+		
+		ModelMatrix.main.popMatrix();
+		
 		// TODO
 		for (int z = 0; z < maze.size(); z++)
 		{
 			int i = 0;
 			for (int x = 0; x < maze.size(); x++)
 			{
-				//if(x != 0)
-				//	continue;
-				//drawCell(maze.cells[x][z], new Point3D(x,0,z));
-				
-				if(x == 1 && z == 1)
-				{
-					ModelMatrix.main.pushMatrix();
-					
-					shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
-					shader.setMaterialDiffuse(1.0f, 0.5f, 0.5f, 1.0f);
-					ModelMatrix.main.addTranslation(x, -0.5f, z);
-					
-					ModelMatrix.main.addScale(1.0f, 0.1f, 1.0f);
-					shader.setModelMatrix(ModelMatrix.main.getMatrix());
-					
-					BoxGraphic.drawSolidCube();
-					
-					ModelMatrix.main.popMatrix();
-				}
-				
-				/*
-				ModelMatrix.main.pushMatrix();
-				
-				shader.setLightPosition(i, x, -100, z, 1.0f);
-				shader.setLightDiffuse(i, 1.0f, 0.0f, 0.0f, 1.0f);
-				shader.setLightSpecular(i, 1.0f, 0.3f, 1.0f, 1.0f);
-				
-				shader.setMaterialSpecular(0.0f, 0.3f, 0.3f, 1.0f);
-				shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
-				shader.setMaterialShininess(2);
-				shader.setMaterialDiffuse(1.0f, 0.5f, 1.0f, 1.0f);
-				ModelMatrix.main.addTranslation(x, -0.5f, z);
-				
-				ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
-				shader.setModelMatrix(ModelMatrix.main.getMatrix());
-				
-				SphereGraphic.drawSolidSphere();
-				
-				ModelMatrix.main.popMatrix();
-				*/
-				// South east corner
 				
 				boolean pillar = false;
 				boolean[] pillarSides = {false,false,true,true,false,false};
@@ -297,8 +237,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					
 					ModelMatrix.main.pushMatrix();
 					
-					shader.setMaterialAmibance(0.5f, 0.5f, 0.5f, 1.0f);
+					shader.setMaterialAmibance(0.5f, 0.0f, 0.0f, 1.0f);
 					shader.setMaterialDiffuse(0.0f, 1.0f, 0.5f, 1.0f);
+					shader.setMaterialSpecular(0.0f, 1.0f, 0.5f, 1.0f);
+					shader.setMaterialShininess(13);
 					
 					ModelMatrix.main.addTranslation(x+0.5f, 0.0f, z-0.0f);
 					ModelMatrix.main.addScale(0.2f, 1.0f, 0.8f+0.2f);
@@ -326,9 +268,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					
 					ModelMatrix.main.pushMatrix();
 					
-					shader.setMaterialSpecular(0.0f, 0.3f, 0.3f, 1.0f);
-					shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
-					shader.setMaterialShininess(100);
+					shader.setMaterialSpecular(0.8f, 0.5f, 0.0f, 1.0f);
+					shader.setMaterialAmibance(0.0f, 0.5f, 0.0f, 1.0f);
+					shader.setMaterialShininess(10);
 					shader.setMaterialDiffuse(1.0f, 0.5f, 1.0f, 1.0f);
 					ModelMatrix.main.addTranslation(x-0.0f, 0.0f, z+0.5f);
 					
@@ -369,55 +311,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 			
 			ModelMatrix.main.loadIdentityMatrix();
 			
-			/*shader.setLightPosition(0, 5, 5, 5, 0.0f); //Directional light
-			shader.setLightDiffuse(0, 0.0f, 0.0f, 0.0f, 1.0f);
-			shader.setLightSpecular(0, 0.5f, 0.5f, 0.5f, 1.0f);
-			
-			float s = (float)Math.sin(angle*Math.PI/180.0);
-			float c = (float)Math.cos(angle*Math.PI/180.0);
-			
-			shader.setEyePosition(0,0,0);
-			shader.setLightPosition(1, 10.0f, 4.0f, -5.0f, 1.0f); //Positional light
-			shader.setLightPosition(1, c, 4.0f, s, 1.0f);
-			
-			s = Math.abs((float)Math.sin((angle / 2.3) * Math.PI/180.0));
-			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI/180.0));
-			
-			shader.setLightDiffuse(1, 1.0f, 0.0f, 0.0f, 1.0f);
-			shader.setLightSpecular(1, 1.0f, 0.3f, 1.0f, 1.0f);
-			
-			shader.setMaterialSpecular(1.0f, 0.3f, 0.3f, 1.0f);
-			shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
-			shader.setMaterialShininess(10);
-			shader.setMaterialDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(10.0f, 4.0f, -5.0f);
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			SphereGraphic.drawSolidSphere();
-			ModelMatrix.main.popMatrix();
-			//drawCell(tempCell, new Point3D(5.0f,0,0));
-			//maze.printMaze();
-			
-			shader.setEyePosition(0,0,0);
-			shader.setLightPosition(2, -10.0f, 4.0f, 5.0f, 1.0f);
-			//shader.setLightPosition(2, c, 4.0f, s, 1.0f);
-			
-			s = Math.abs((float)Math.sin((angle / 200.3) * Math.PI/180.0));
-			c = Math.abs((float)Math.cos((angle * 1.3342) * Math.PI/180.0));
-			
-			shader.setLightDiffuse(2, 1.0f, 0.0f, 0.0f, 1.0f);
-			shader.setLightSpecular(2, 1.0f, 0.3f, 1.0f, 1.0f);
-			
-			shader.setMaterialSpecular(0.0f, 0.3f, 0.3f, 1.0f);
-			shader.setMaterialAmibance(1.0f, 0.5f, 0.0f, 1.0f);
-			shader.setMaterialShininess(100);
-			shader.setMaterialDiffuse(1.0f, 0.5f, 1.0f, 1.0f);
-			ModelMatrix.main.pushMatrix();
-			ModelMatrix.main.addTranslation(-10.0f, 4.0f, 5.0f);
-			shader.setModelMatrix(ModelMatrix.main.getMatrix());
-			SphereGraphic.drawSolidSphere();
-			ModelMatrix.main.popMatrix();*/
-			
 			drawMaze(maze);
 			
 			
@@ -426,7 +319,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 				shader.setMaterialDiffuse(1.0f, 0.3f, 0.1f, 1.0f);
 				ModelMatrix.main.pushMatrix();
 				ModelMatrix.main.addTranslation(cam.eye.x, cam.eye.y, cam.eye.z);
-				ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
+				ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
 				shader.setModelMatrix(ModelMatrix.main.getMatrix());
 				BoxGraphic.drawSolidCube();
 				ModelMatrix.main.popMatrix();

@@ -19,10 +19,11 @@ public class Shader {
 	private int projectionMatrixLoc;
 
 	//private int colorLoc;
-	private int numberOfLights = 10;
+	private int numberOfLights = 6;
 	private int lightPosLoc[] = new int[numberOfLights];
-	private int lightDifLoc[] = new int[numberOfLights];
-	private int lightSpecLoc[] = new int[numberOfLights];
+	private int lightColLoc[] = new int[numberOfLights];
+	//private int lightDifLoc[] = new int[numberOfLights];
+	//private int lightSpecLoc[] = new int[numberOfLights];
 	private int matDifLoc;
 	private int matAmbLoc;
 	private int matSpecLoc;
@@ -73,8 +74,9 @@ public class Shader {
 		for(int i = 0; i < numberOfLights; i++)
 		{
 			lightPosLoc[i]				= Gdx.gl.glGetUniformLocation(renderingProgramID, "lights["+i+"].lightPosition");
-			lightDifLoc[i]				= Gdx.gl.glGetUniformLocation(renderingProgramID, "lights["+i+"].lightDiffuse");
-			lightSpecLoc[i]			= Gdx.gl.glGetUniformLocation(renderingProgramID, "lights["+i+"].lightSpecular");
+			lightColLoc[i]				= Gdx.gl.glGetUniformLocation(renderingProgramID, "lights["+i+"].lightColor");
+			//lightDifLoc[i]				= Gdx.gl.glGetUniformLocation(renderingProgramID, "lights["+i+"].lightDiffuse");
+			//lightSpecLoc[i]			= Gdx.gl.glGetUniformLocation(renderingProgramID, "lights["+i+"].lightSpecular");
 			//System.out.println(lightPosLoc[i] + "," + lightDifLoc[i] + "," + lightSpecLoc[i]		);
 		}
 		
@@ -105,6 +107,11 @@ public class Shader {
 			Gdx.gl.glUniform4f(lightPosLoc[i], x, y, z, w);	
 	}
 	
+	public void setLightColor(int i, float x, float y, float z, float w)
+	{
+			Gdx.gl.glUniform4f(lightColLoc[i], x, y, z, w);	
+	}
+	/*
 	public void setLightDiffuse(int i, float r, float g, float b, float a)
 	{
 		Gdx.gl.glUniform4f(lightDifLoc[i], r, g, b, a);
@@ -114,7 +121,7 @@ public class Shader {
 	{
 		Gdx.gl.glUniform4f(lightSpecLoc[i], r, g, b, a);
 	}
-	
+	*/
 	public void setMaterialDiffuse(float r, float g, float b, float a)
 	{
 		Gdx.gl.glUniform4f(matDifLoc, r, g, b, a);

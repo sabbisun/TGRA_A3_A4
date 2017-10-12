@@ -16,13 +16,14 @@ uniform mat4 u_modelMatrix;
 uniform mat4 u_viewMatrix;
 uniform mat4 u_projectionMatrix;
 
-const int lightNumber = 10;
+const int lightNumber = 6;
 
 struct light
 {
 	vec4 lightPosition;
-	vec4 lightDiffuse;
-	vec4 lightSpecular;
+	vec4 lightColor;
+	//vec4 lightDiffuse;
+	//vec4 lightSpecular;
 };
 
 uniform light lights[lightNumber];
@@ -53,7 +54,7 @@ void main()
 	vec4 h;
 	float lambert;
 	float phong;
-	
+	v_color = u_materialAmbiance*u_globalAmbiance;
 	for(int i = 0; i < lightNumber; i++)
 	{
 		if(lights[i].lightPosition.w == 0.0f) //for directional light
@@ -69,10 +70,10 @@ void main()
 		h = v + s;
 		phong = max(0, dot(normal, h) / (length(normal)*length(h))); //normal and direction to the light
 		phong = pow(phong, u_shininess);
-		v_color += lambert*lights[i].lightDiffuse*u_materialDiffuse; //vectors multiplied component wise
-		v_color += phong*lights[i].lightSpecular*u_materialSpecular;
+		v_color += lambert*lights[i].lightColor*u_materialDiffuse; //vectors multiplied component wise
+		v_color += phong*lights[i].lightColor*u_materialSpecular;
 	}
-	v_color += u_materialAmbiance*u_globalAmbiance;
+	
 
 	position = u_viewMatrix * position;
 	//normal = u_viewMatrix * normal;
