@@ -121,6 +121,7 @@ public class Player {
 			if (counter > 5)
 			{
 				System.out.println(vector.string());
+				System.out.println("loop exited ");
 				System.exit(0);
 			}
 
@@ -146,8 +147,10 @@ public class Player {
 				vector.set(vector.x, 0, 0);
 			}
 		}
+		//System.out.println("vector after collision "+vector.string());
 		playerLocation.x += vector.x;
 		playerLocation.z += vector.z;
+		//System.out.println("pos after collision "+playerLocation.string());
 		playerCam.move(vector);
 		shader.setEyePosition(playerCam.eye.x, playerCam.eye.y, playerCam.eye.z);
 	}

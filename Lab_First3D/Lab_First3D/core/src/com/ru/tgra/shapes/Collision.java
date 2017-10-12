@@ -2,6 +2,8 @@ package com.ru.tgra.shapes;
 
 public class Collision {
 	
+	static boolean record = false;
+	
 	public static boolean collide(Point3D playerLocation, Vector3D vector, float radius, Maze maze)
 	{	
 		int xPos = (int) Math.floor(playerLocation.x);
@@ -25,7 +27,7 @@ public class Collision {
 			//wSystem.out.println("z < 0");
 			if(0 < zPos && maze.cells[xPos][zPos-1].south())
 			{
-				System.out.println("Cell has northwall");
+				//System.out.println("Cell has northwall");
 				if(playerLocation.z + vector.z - radius < zPos)
 				{
 					return true;
@@ -436,51 +438,74 @@ public class Collision {
 		
 		if(vector.x < 0 || vector.z < 0)
 		{
-			// Check if colliding with eastwall going north, hitting the south side
-			/*
-			 *   |
-			 * __|__
-			 *    A
-			 *    |
-			 */
-			if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east())
+			if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east()
+					&& xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south()
+					&& !(maze.cells[xPos-1][zPos].east())
+					&& !(maze.cells[xPos][zPos-1].south()))
 			{
-				if(xPos + 0.1f > playerLocation.x - (radius - 0.10)
-					&& zPos > playerLocation.z - (radius - 0.10))
+				if(xPos + 0.1f > playerLocation.x + vector.x - (radius - 0.10)
+						&& zPos + 0.1f > playerLocation.z + vector.z - (radius - 0.10))
 				{
-					
-					if (vector.x < 0 && playerLocation.x - xPos > playerLocation.z - zPos)
+					if (vector.x < 0 && playerLocation.x - (xPos + 0.1f) > playerLocation.z - (zPos + 0.1f))
 					{
 						return 1;
 					}
-					else if(vector.z < 0 && playerLocation.x - xPos < playerLocation.z - zPos)
+					else if(vector.z < 0 && playerLocation.x - (xPos + 0.1f) < playerLocation.z - (zPos + 0.1f))
 					{
 						return 3;
+					}
+				}
+			}
+			else
+			{
+				
+				// Check if colliding with eastwall going north, hitting the south side
+				/*
+				 *   |
+				 * __|__
+				 *    A
+				 *    |
+				 */
+				if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east())
+				{
+					if(xPos + 0.1f > playerLocation.x + vector.x - (radius - 0.10)
+						&& zPos > playerLocation.z + vector.z- (radius - 0.10))
+					{
+						
+						if (vector.x < 0 && playerLocation.x - (xPos + 0.1f) > playerLocation.z - zPos)
+						{
+							return 1;
+						}
+						else if(vector.z < 0 && playerLocation.x - (xPos + 0.1f) < playerLocation.z - zPos)
+						{
+							return 3;
+						}
+					}
+				}
+				
+				// Check if colliding with southwall going west, hitting the east side
+				/*______
+				 * 		| 
+				 * ------
+				 *______| <- 
+				 */
+				if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
+				{
+					if(xPos > playerLocation.x + vector.x - (radius - 0.1) 
+					&& zPos + 0.1f > playerLocation.z + vector.z - (radius - 0.1))
+					{
+						if (vector.x < 0 && playerLocation.x - xPos > playerLocation.z - (zPos + 0.1f))
+						{
+							return 1;
+						}
+						else if(vector.z < 0 && playerLocation.x - xPos < playerLocation.z - (zPos + 0.1f))
+						{
+							return 3;
+						}
 					}
 				}
 			}
 			
-			// Check if colliding with southwall going west, hitting the east side
-			/*______
-			 * 		| 
-			 * ------
-			 *______| <- 
-			 */
-			if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
-			{
-				if(xPos > playerLocation.x - (radius - 0.1) 
-				&& zPos + 0.1f > playerLocation.z - (radius - 0.1))
-				{
-					if (vector.x < 0 && playerLocation.x - xPos > playerLocation.z - (zPos + 0.1f))
-					{
-						return 1;
-					}
-					else if(vector.z < 0 && playerLocation.x - xPos < playerLocation.z - (zPos + 0.1f))
-					{
-						return 3;
-					}
-				}
-			}
 		}
 		
 		// Might collide with south-west corner
@@ -490,48 +515,28 @@ public class Collision {
 		 */
 		if(vector.x > 0 || vector.z < 0)
 		{
-			// Check if colliding with eastwall going north, hitting the south side
-			/*
-			 *   |
-			 * __|__
-			 * A
-			 * |
-			 */
-			if(zPos > 0 && maze.cells[xPos][zPos-1].east())
+			//Big corner
+			if(zPos > 0 && maze.cells[xPos][zPos-1].east()
+					&& zPos > 0 && xPos < maze.size() - 1 && maze.cells[xPos+1][zPos-1].south()
+					&& !(maze.cells[xPos][zPos].east())
+					&& !(maze.cells[xPos][zPos-1].south()))
 			{
-				if(xPos + 0.9f < playerLocation.x + (radius - 0.10)
-						&& zPos > playerLocation.z - (radius - 0.10))
+				boolean test1 = (xPos + 0.9f) < playerLocation.x + vector.x + (radius - 0.10f);
+				boolean test2 = (zPos + 0.1f) > playerLocation.z + vector.z - (radius - 0.10f);
+				if(test1 && test2)
 				{
+
+					System.out.println("hitting corner");
 					float X = (playerLocation.x - (xPos + 0.9f));
-					float Z = (playerLocation.z - (zPos));
-					if (vector.x > 0 && X/Z < -1)
+					float Z = (playerLocation.z - (zPos + 0.1f));
+					
+					if(vector.x > 0 && X/Z> 0 && X/Z > 1)
 					{
-						return 1;
+							return 1;
 					}
-					else if(vector.z < 0 && X/Z > -1)
+					else if(vector.z < 0 && X/Z> 0 && X/Z < 1)
 					{
-						return 3;
-					}
-				}
-			}
-			
-			// Check if colliding with southwall going east, hitting the west side
-			/*    _____
-			 *   |	
-			 *   ------
-			 * ->|_____
-			 */
-			if(zPos > 0 && xPos< maze.size() - 1 && maze.cells[xPos+1][zPos-1].south())
-			{
-				float X = (playerLocation.x - (xPos + 1.0f));
-				float Z = (playerLocation.z - (zPos + 0.1f));
-				
-				if(xPos + 1.0f < playerLocation.x + (radius - 0.1f) 
-				&& zPos + 0.1f > playerLocation.z - (radius - 0.1f))
-				{
-					if(X/Z> 0)
-					{
-							// TODO figure this out, it still works
+							return 3;
 					}
 					else if (vector.x > 0 && X/Z < -1)
 					{
@@ -541,10 +546,87 @@ public class Collision {
 					{
 						return 3;
 					}
-					//return 0;
 				}
 			}
-			
+			else
+			{
+				// Check if colliding with eastwall going north, hitting the south side
+				/*
+				 *   |
+				 * __|__
+				 * A
+				 * |
+				 */
+				if(zPos > 0 && maze.cells[xPos][zPos-1].east())
+				{
+					if(xPos + 0.9f < playerLocation.x + vector.x + (radius - 0.10)
+							&& zPos > playerLocation.z + vector.z - (radius - 0.10))
+					{
+						float X = (playerLocation.x - (xPos + 0.9f));
+						float Z = (playerLocation.z - (zPos));
+						
+						//if(X/Z> 0)
+						//{
+								// TO DO figure this out, it still works
+								// Might be because of vector
+						//}
+						if(vector.x > 0 && X/Z> 0 && X/Z > 1)
+						{
+								return 1;
+						}
+						else if(vector.z < 0 && X/Z> 0 && X/Z < 1)
+						{
+								return 3;
+						}
+						else if (vector.x > 0 && X/Z < -1)
+						{
+							return 1;
+						}
+						else if(vector.z < 0 && X/Z > -1)
+						{
+							return 3;
+						}
+					}
+				}
+				
+				// Check if colliding with southwall going east, hitting the west side
+				/*    _____
+				 *   |	
+				 *   ------
+				 * ->|_____
+				 */
+				if(zPos > 0 && xPos< maze.size() - 1 && maze.cells[xPos+1][zPos-1].south())
+				{
+					float X = (playerLocation.x - (xPos + 1.0f));
+					float Z = (playerLocation.z - (zPos + 0.1f));
+					
+					if(xPos + 1.0f < playerLocation.x + (radius - 0.1f) 
+					&& zPos + 0.1f > playerLocation.z - (radius - 0.1f))
+					{
+						//if(X/Z> 0)
+						//{
+								// TODO figure this out, it still works
+						//}
+						if(vector.x > 0 && X/Z> 0 && X/Z > 1)
+						{
+								return 1;
+						}
+						else if(vector.z < 0 && X/Z> 0 && X/Z < 1)
+						{
+								return 3;
+						}
+						else if (vector.x > 0 && X/Z < -1)
+						{
+							return 1;
+						}
+						else if(vector.z < 0 && X/Z > -1)
+						{
+							return 3;
+						}
+						//return 0;
+					}
+				}
+			}
 			
 		}
 		// Might collide with north-west corner
@@ -554,48 +636,69 @@ public class Collision {
 		 */
 		if(vector.x > 0 || vector.z > 0)
 		{
-			// Check if colliding with southwall going east, hitting the west side
-			/*    _____
-			 * ->|	
-			 *   ------
-			 * 	 |_____
-			 */
-			if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south())
+			if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south()
+					&& zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east()
+					&& !(maze.cells[xPos][zPos].east())
+					&& !(maze.cells[xPos][zPos].south()))
 			{
-				if(xPos + 1.0f < playerLocation.x + vector.x + (radius - 0.1)
-					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.1))
-				{
-					if (vector.x > 0 && playerLocation.x - (xPos + 1.0f) < playerLocation.z - (zPos + 0.9f))
-					{
-						return 1;
-					}
-					else if(vector.z > 0 && playerLocation.x - (xPos + 1.0f) > playerLocation.z - (zPos + 0.9f))
-					{
-						return 3;
-					}
-				}
-			}
-			
-			// Check if colliding with eastwall going south, hitting the north side
-			/*
-			 *  |
-			 *  V
-			 * __ __
-			 *   |
-			 *   |
-			 */
-			if(zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east())
-			{
-				if(xPos + 0.9f < playerLocation.x + (radius - 0.10)
-						&& zPos + 0.9f < playerLocation.z + (radius - 0.10))
+				if(xPos + 0.9f < playerLocation.x + vector.x + (radius - 0.10)
+						&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.10))
 				{
 					if (vector.x > 0 && playerLocation.x - (xPos + 0.9f) < playerLocation.z - (zPos + 0.9f))
 					{
 						return 1;
 					}
-					else if(vector.z > 0 && playerLocation.x - (xPos + 0.9f) > playerLocation.z - (zPos + 0.9f))
+					else if(vector.z > 0 && playerLocation.x - (xPos + 0.9f) > playerLocation.z - (zPos + 0.9))
 					{
 						return 3;
+					}
+				}
+			}
+			else
+			{
+				// Check if colliding with southwall going east, hitting the west side
+				/*    _____
+				 * ->|	
+				 *   ------
+				 * 	 |_____
+				 */
+				if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south())
+				{
+					if(xPos + 1.0f < playerLocation.x + vector.x + (radius - 0.1)
+						&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.1))
+					{
+						if (vector.x > 0 && playerLocation.x - (xPos + 1.0f) < playerLocation.z - (zPos + 0.9f))
+						{
+							return 1;
+						}
+						else if(vector.z > 0 && playerLocation.x - (xPos + 1.0f) > playerLocation.z - (zPos + 0.9f))
+						{
+							return 3;
+						}
+					}
+				}
+				
+				// Check if colliding with eastwall going south, hitting the north side
+				/*
+				 *  |
+				 *  V
+				 * __ __
+				 *   |
+				 *   |
+				 */
+				if(zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east())
+				{
+					if(xPos + 0.9f < playerLocation.x + vector.x + (radius - 0.10)
+							&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.10))
+					{
+						if (vector.x > 0 && playerLocation.x - (xPos + 0.9f) < playerLocation.z - (zPos + 0.9f))
+						{
+							return 1;
+						}
+						else if(vector.z > 0 && playerLocation.x - (xPos + 0.9f) > playerLocation.z - (zPos + 0.9f))
+						{
+							return 3;
+						}
 					}
 				}
 			}
@@ -608,22 +711,32 @@ public class Collision {
 		 */
 		if(vector.x < 0 || vector.z > 0)
 		{
-			// Check if colliding with eastwall going south, hitting the north side
-			/*
-			 *    |
-			 *    V
-			 * __ __
-			 *   |
-			 *   |
-			 */
-			if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east())
+			
+			//Big corner
+			if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east()
+					&& xPos > 0 && maze.cells[xPos-1][zPos].south()
+					&& !(maze.cells[xPos][zPos].south())
+					&& !(maze.cells[xPos-1][zPos].east()))
 			{
-				if(xPos + 0.1f > playerLocation.x - (radius - 0.10)
-						&& zPos + 1.0f < playerLocation.z + (radius - 0.10))
+				
+				boolean test1 = xPos + 0.1f > playerLocation.x + vector.x - (radius - 0.10);
+				boolean test2 = zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.10);
+				if(test1 && test2)
 				{
+					
+					//System.out.println("hitting corner");
 					float X = (playerLocation.x - (xPos + 0.1f));
-					float Z = (playerLocation.z - (zPos + 1.0f));
-					if (vector.x < 0 && X/Z < -1)
+					float Z = (playerLocation.z - (zPos + 0.9f));
+					
+					if(vector.x < 0 && X/Z> 0 && X/Z > 1)
+					{
+							return 1;
+					}
+					else if(vector.z > 0 && X/Z> 0 && X/Z < 1)
+					{
+							return 3;
+					}
+					else if (vector.x < 0 && X/Z < -1)
 					{
 						return 1;
 					}
@@ -633,33 +746,64 @@ public class Collision {
 					}
 				}
 			}
-			
-			// Check if colliding with southwall going west, hitting the east side
-			/* _____
-			 * 		| <-
-			 * ------
-			 * _____|
-			 */
-			// TODO
-			if(xPos > 0 && maze.cells[xPos-1][zPos].south())
+			else
 			{
-				if(xPos > playerLocation.x + vector.x - (radius - 0.10)
-					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.10))
+				// Check if colliding with eastwall going south, hitting the north side
+				/*
+				 *    |
+				 *    V
+				 * __ __
+				 *   |
+				 *   |
+				 */
+				if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east())
 				{
-					System.out.println("hitr");
-					float X = (playerLocation.x - (xPos));
-					float Z = (playerLocation.z - (zPos + 0.9f));
-					if(X/Z> 0)
+					if(xPos + 0.1f > playerLocation.x + vector.x - (radius - 0.10)
+							&& zPos + 1.0f < playerLocation.z + vector.z + (radius - 0.10))
 					{
-							// TODO figure this out, it still works
+						float X = (playerLocation.x - (xPos + 0.1f));
+						float Z = (playerLocation.z - (zPos + 1.0f));
+						if (vector.x < 0 && X/Z < -1)
+						{
+							return 1;
+						}
+						else if(vector.z > 0 && X/Z > -1)
+						{
+							return 3;
+						}
 					}
-					else if (vector.x < 0 && X/Z < -1)
+				}
+				
+				// Check if colliding with southwall going west, hitting the east side
+				/* _____
+				 * 		| <-
+				 * ------
+				 * _____|
+				 */
+				if(xPos > 0 && maze.cells[xPos-1][zPos].south())
+				{
+					if(xPos > playerLocation.x + vector.x - (radius - 0.10)
+						&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.10))
 					{
-						return 1;
-					}
-					else if(vector.z > 0 && X/Z > -1)
-					{
-						return 3;
+						//System.out.println("hitr");
+						float X = (playerLocation.x - (xPos));
+						float Z = (playerLocation.z - (zPos + 0.9f));
+						if(vector.x < 0 && X/Z> 0 && X/Z > 1)
+						{
+								return 1;
+						}
+						else if(vector.z > 0 && X/Z> 0 && X/Z < 1)
+						{
+								return 3;
+						}
+						else if (vector.x < 0 && X/Z < -1)
+						{
+							return 1;
+						}
+						else if(vector.z > 0 && X/Z > -1)
+						{
+							return 3;
+						}
 					}
 				}
 			}
@@ -758,6 +902,7 @@ public class Collision {
 		 */
 		if(vector.x > 0 || vector.z > 0)
 		{
+			
 			// Check if colliding with southwall going east, hitting the west side
 			/*    _____
 			 * ->|	
