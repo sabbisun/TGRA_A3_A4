@@ -114,8 +114,15 @@ public class Player {
 	
 	private void walk(Vector3D vector)
 	{
+		int counter = 0;
 		while(true)
 		{
+			counter++;
+			if (counter > 5)
+			{
+				System.out.println(vector.string());
+				System.exit(0);
+			}
 
 			int test = Collision.collideInt(playerLocation, vector, radius, maze);
 			if(test < 0)

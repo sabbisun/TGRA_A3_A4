@@ -459,10 +459,20 @@ public class Collision {
 			 */
 			if(zPos > 0 && xPos > 0 && maze.cells[xPos-1][zPos-1].east())
 			{
-				if(xPos + 0.1f > playerLocation.x - (radius - 0.15)
-					&& zPos > playerLocation.z - (radius - 0.15))
+				if(xPos + 0.1f > playerLocation.x - (radius - 0.10)
+					&& zPos > playerLocation.z - (radius - 0.10))
 				{
-					return 0;
+					
+					if (vector.x < 0 && playerLocation.x - xPos > playerLocation.z - zPos)
+					{
+						return 1;
+					}
+					else if(vector.z < 0 && playerLocation.x - xPos < playerLocation.z - zPos)
+					{
+						return 3;
+					}
+					
+					//return 0;
 				}
 			}
 			
@@ -474,10 +484,17 @@ public class Collision {
 			 */
 			if(xPos > 0 && zPos > 0 && maze.cells[xPos-1][zPos-1].south())
 			{
-				if(xPos > playerLocation.x - (radius - 0.15) 
-				&& zPos + 0.1f > playerLocation.z - (radius - 0.15))
+				if(xPos > playerLocation.x - (radius - 0.1) 
+				&& zPos + 0.1f > playerLocation.z - (radius - 0.1))
 				{
-					return 0;
+					if (vector.x < 0 && playerLocation.x - xPos > playerLocation.z - (zPos + 0.1f))
+					{
+						return 1;
+					}
+					else if(vector.z < 0 && playerLocation.x - xPos < playerLocation.z - (zPos + 0.1f))
+					{
+						return 3;
+					}
 				}
 			}
 		}
@@ -498,10 +515,19 @@ public class Collision {
 			 */
 			if(zPos > 0 && maze.cells[xPos][zPos-1].east())
 			{
-				if(xPos + 0.9f < playerLocation.x + (radius - 0.15)
-						&& zPos > playerLocation.z - (radius - 0.15))
+				if(xPos + 0.9f < playerLocation.x + (radius - 0.10)
+						&& zPos > playerLocation.z - (radius - 0.10))
 				{
-					return 0;
+					float X = (playerLocation.x - (xPos + 0.9f));
+					float Z = (playerLocation.z - (zPos));
+					if (vector.x > 0 && X/Z < -1)
+					{
+						return 1;
+					}
+					else if(vector.z < 0 && X/Z > -1)
+					{
+						return 3;
+					}
 				}
 			}
 			
@@ -513,10 +539,25 @@ public class Collision {
 			 */
 			if(zPos > 0 && xPos< maze.size() - 1 && maze.cells[xPos+1][zPos-1].south())
 			{
-				if(xPos + 1.0f < playerLocation.x + (radius - 0.15f) 
-				&& zPos + 0.1f > playerLocation.z - (radius - 0.15f))
+				float X = (playerLocation.x - (xPos + 1.0f));
+				float Z = (playerLocation.z - (zPos + 0.1f));
+				
+				if(xPos + 1.0f < playerLocation.x + (radius - 0.1f) 
+				&& zPos + 0.1f > playerLocation.z - (radius - 0.1f))
 				{
-					return 0;
+					if(X/Z> 0)
+					{
+							// TODO figure this out, it still works
+					}
+					else if (vector.x > 0 && X/Z < -1)
+					{
+						return 1;
+					}
+					else if(vector.z < 0 && X/Z > -1)
+					{
+						return 3;
+					}
+					//return 0;
 				}
 			}
 			
@@ -537,10 +578,17 @@ public class Collision {
 			 */
 			if(xPos < maze.size() - 1 && maze.cells[xPos+1][zPos].south())
 			{
-				if(xPos < playerLocation.x + vector.x + (radius - 0.15)
-					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				if(xPos + 1.0f < playerLocation.x + vector.x + (radius - 0.1)
+					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.1))
 				{
-					return 0;
+					if (vector.x > 0 && playerLocation.x - (xPos + 1.0f) < playerLocation.z - (zPos + 0.9f))
+					{
+						return 1;
+					}
+					else if(vector.z > 0 && playerLocation.x - (xPos + 1.0f) > playerLocation.z - (zPos + 0.9f))
+					{
+						return 3;
+					}
 				}
 			}
 			
@@ -554,10 +602,17 @@ public class Collision {
 			 */
 			if(zPos < maze.size() - 1 && maze.cells[xPos][zPos+1].east())
 			{
-				if(xPos + 0.9f < playerLocation.x + (radius - 0.15)
-						&& zPos + 0.9f < playerLocation.z + (radius - 0.15))
+				if(xPos + 0.9f < playerLocation.x + (radius - 0.10)
+						&& zPos + 0.9f < playerLocation.z + (radius - 0.10))
 				{
-					return 0;
+					if (vector.x > 0 && playerLocation.x - (xPos + 0.9f) < playerLocation.z - (zPos + 0.9f))
+					{
+						return 1;
+					}
+					else if(vector.z > 0 && playerLocation.x - (xPos + 0.9f) > playerLocation.z - (zPos + 0.9f))
+					{
+						return 3;
+					}
 				}
 			}
 		}
@@ -579,10 +634,19 @@ public class Collision {
 			 */
 			if(xPos > 0 && zPos < maze.size() - 1 && maze.cells[xPos-1][zPos+1].east())
 			{
-				if(xPos + 0.1f > playerLocation.x - (radius - 0.15)
-						&& zPos + 1.0f < playerLocation.z + (radius - 0.15))
+				if(xPos + 0.1f > playerLocation.x - (radius - 0.10)
+						&& zPos + 1.0f < playerLocation.z + (radius - 0.10))
 				{
-					return 0;
+					float X = (playerLocation.x - (xPos + 0.1f));
+					float Z = (playerLocation.z - (zPos + 1.0f));
+					if (vector.x < 0 && X/Z < -1)
+					{
+						return 1;
+					}
+					else if(vector.z > 0 && X/Z > -1)
+					{
+						return 3;
+					}
 				}
 			}
 			
@@ -592,12 +656,27 @@ public class Collision {
 			 * ------
 			 * _____|
 			 */
+			// TODO
 			if(xPos > 0 && maze.cells[xPos-1][zPos].south())
 			{
-				if(xPos > playerLocation.x + vector.x - (radius - 0.15)
-					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.15))
+				if(xPos > playerLocation.x + vector.x - (radius - 0.10)
+					&& zPos + 0.9f < playerLocation.z + vector.z + (radius - 0.10))
 				{
-					return 0;
+					System.out.println("hitr");
+					float X = (playerLocation.x - (xPos));
+					float Z = (playerLocation.z - (zPos + 0.9f));
+					if(X/Z> 0)
+					{
+							// TODO figure this out, it still works
+					}
+					else if (vector.x < 0 && X/Z < -1)
+					{
+						return 1;
+					}
+					else if(vector.z > 0 && X/Z > -1)
+					{
+						return 3;
+					}
 				}
 			}
 		}		
@@ -794,13 +873,7 @@ public class Collision {
 			return result;
 		}
 		
-		Point3D corner = checkCorners(playerLocation, vector, radius, maze, xPos, zPos);
-		
-		if(corner.x >= 0 && corner.z >= 0)
-		{
-			//return 0;
-			collideCorner(playerLocation, corner, radius);
-		}
+		result = checkCornersInt(playerLocation, vector, radius, maze, xPos, zPos);
 		
 		return result;
 	}

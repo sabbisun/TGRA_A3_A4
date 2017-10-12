@@ -143,6 +143,25 @@ public class Maze {
 		}
 	}
 	
+	public void setTest4()
+	{
+		for(int y = 0; y < size; y += 1)
+		{
+			for(int x = 0; x < size; x += 1)
+			{
+					cells[x][y].clear();
+			}
+		}
+		if(size >= 5)
+		{
+			cells[1][1].setEast(true);
+		}
+		if(size >= 5)
+		{
+			cells[1][2].setEast(true);
+		}
+	}
+	
 	public void setMaze()
 	{
 		// Set up cells
