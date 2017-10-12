@@ -55,8 +55,8 @@ public class Player {
 	{
 		//System.out.println("before" + vector.string());
 		
-		playerLocation.x = vector.x;
-		playerLocation.z = vector.z;
+		playerLocation.x += vector.x;
+		playerLocation.z += vector.z;
 		playerCam.move(vector);
 		
 		

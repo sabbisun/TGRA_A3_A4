@@ -1018,17 +1018,16 @@ public class Collision {
 		}
 	}
 
-	static Vector3D collideObstacle(Player player, Obstacle obstacle)
+	static Vector3D collideObstacle(Point3D playerLocation, float radius, Obstacle obstacle)
 	{
-		
-		Vector3D dist = obstacle.obstacleLocation.to(player.playerLocation);
-		
-		System.out.println(dist.length());
-		if (dist.length() < obstacle.radius + player.radius)
+		// TODO
+		Vector3D dist = obstacle.obstacleLocation.to(playerLocation);
+		float wantedDist = obstacle.radius + radius;
+		float actualDist = dist.length();
+		if (actualDist < wantedDist)
 		{
-			//System.out.println("colo");
 			dist.normalize();
-			dist.scale(obstacle.radius + player.radius);
+			dist.scale(wantedDist-actualDist);
 			return dist;
 			
 		}

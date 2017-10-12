@@ -33,17 +33,12 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		
 		shader = new Shader();
 		
-		maze = new Maze(12);
-		//maze.setPrison();
-		//maze.setFull();
-		//maze.setTest1();
-		//maze.setMaze();
-		//maze.setMazeCenterRoom();
-		//maze.printMaze();
-		maze.printSetup();
+		maze = new Maze(13);
+		maze.setMazeCenterRoom();
+		//maze.printSetup();
 		
 		float center = (float) ((maze.size()-1)/2 + 1.0f - 0.5f*(maze.size()%2) + 0.5);
-		ballOfDoom = new Obstacle(new Point3D(center, 0.0f, center), 0.2f, 90.0f);
+		ballOfDoom = new Obstacle(new Point3D(center, 0.0f, center), 0.2f, 0.5f, 90.0f);
 		
 		tempCell = new RoomCell();
 		tempCell.fill();
@@ -83,9 +78,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	}
 	
 	private void update()
-	{
-		System.out.println(playerOne.getLocation().string());
-		
+	{	
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
 		{
 			System.exit(0);
@@ -148,7 +141,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 		
 		ballOfDoom.movement(Gdx.graphics.getDeltaTime());
-		Vector3D dist = Collision.collideObstacle(playerOne, ballOfDoom);
+		Vector3D dist = Collision.collideObstacle(playerOne.playerLocation.copy(), playerOne.radius, ballOfDoom);
 		playerOne.getPushed(dist);
 		
 	}
